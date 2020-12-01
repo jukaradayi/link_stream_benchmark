@@ -1,5 +1,6 @@
 import argparse
 
+from networkx.generators.random_graphs import gnm_random_graph
 from networkit.generators import EdgeSwitchingMarkovChainGenerator, HavelHakimiGenerator, ErdosRenyiGenerator
 
 class AbstractGraphGenerator():
@@ -40,12 +41,12 @@ class EdgeSwitchingMarkovChain(AbstractGraphGenerator):
     """
 
     def __init__(self, **kwargs):
-        pass
+        self.sequence = sequence
+        self.generator = EdgeSwitchingMarkovChain(self.sequence)
+        self.graph = None
 
     def run(self):
-        assert
-        assert
-        EdgeSwitchingMarkovChainGenerator.fit()
+        self.graph = self.generator.generate()
 
 class HavelHakimi(AbstractGraphGenerator):
     """ Wrapper of Networkit HavelHakimi
@@ -59,12 +60,12 @@ class HavelHakimi(AbstractGraphGenerator):
     """
 
     def __init__(self, **kwargs):
-        pass
+        self.sequence = sequence
+        self.generator = HavelHakimiGenerator(self.sequence)
+        self.graph = None
 
     def run(self):
-        assert
-        assert
-        HavelHakimiGenerator.fit()
+        graph = self.generator.generate()
 
 class ErdosRenyi(AbstractGraphGenerator):
     """ Wrapper of Networkit ErdosRenyiGenerator
@@ -81,10 +82,30 @@ class ErdosRenyi(AbstractGraphGenerator):
                Allows self-loops to be generated (only for directed graphs)
     """   
     def __init__(self, **kwargs):
-        pass
+        self.n = n
+        self.p = p
+        self.generator = ErdosRenyiGenerator(n, p, directed = False, selfLoops=False)
+        self.graph = None
 
     def run(self):
-        assert
-        assert
-        ErdosRenyiGenerator.fit()
+        #assert
+        graph = self.generator.generate()
 
+class GNM(AbstractGraphGenerator):
+    """ Wrapper of Networkx gnm_random_graph
+    Parameters:
+    -----------
+        n: int
+            number of nodes
+        m: int
+            number of edges
+        seed: int
+            random seed
+    """
+    def __init(self, **kwargs):
+        self.n = n
+        self.m = m
+        self.seed = seed if not None else None
+
+    def run(self):
+        self.graph = gnm_random_graph(n, m, seed=None, directed=False)
