@@ -1,2 +1,5 @@
 taxi_data/*
-utils/*
+utils/genbip/*
+utils/mawi_stream/*
+utils/nyc_taxi_stream/*
+prepare_data.sh
