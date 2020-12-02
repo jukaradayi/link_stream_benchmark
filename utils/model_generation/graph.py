@@ -1,3 +1,4 @@
+import ipdb
 import argparse
 
 from networkx.generators.random_graphs import gnm_random_graph
@@ -24,6 +25,10 @@ class AbstractGraphGenerator():
 
     def is_realisable():
         raise NotImplementedError
+
+    def write_graph(self,):
+        for (u, v) in self.graph.iterEdges():
+            print((u,v))
 
     def run(self):
         raise NotImplementedError
@@ -81,15 +86,16 @@ class ErdosRenyi(AbstractGraphGenerator):
            selfLoops : bool
                Allows self-loops to be generated (only for directed graphs)
     """   
+    #def __init__(self, n, p):
     def __init__(self, **kwargs):
-        self.n = n
-        self.p = p
-        self.generator = ErdosRenyiGenerator(n, p, directed = False, selfLoops=False)
+        self.n = kwargs['n']
+        self.p = kwargs['p']
+        self.generator = ErdosRenyiGenerator(self.n, self.p, directed = False, selfLoops=False)
         self.graph = None
 
     def run(self):
         #assert
-        graph = self.generator.generate()
+        self.graph = self.generator.generate()
 
 class GNM(AbstractGraphGenerator):
     """ Wrapper of Networkx gnm_random_graph
@@ -102,10 +108,16 @@ class GNM(AbstractGraphGenerator):
         seed: int
             random seed
     """
-    def __init(self, **kwargs):
-        self.n = n
-        self.m = m
-        self.seed = seed if not None else None
+    def __init__(self, **kwargs):
+        self.n = kwargs['n']
+        self.m = kwargs['m']
+        #self.seed = seed if not None else None
+
+    def write_graph(self,):
+        for (u, v) in self.graph.edges():
+            print((u,v))
 
     def run(self):
-        self.graph = gnm_random_graph(n, m, seed=None, directed=False)
+        print(self.n)
+        print(self.m)
+        self.graph = gnm_random_graph(self.n, self.m, seed=None, directed=False)

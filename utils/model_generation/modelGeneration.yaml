@@ -2,10 +2,12 @@ Graph:
     generate: True # choose to generate or not
     real_model_path: /yoshi # use real graph for parameters (?!)
     params:
-        model: "erdos-renyii"
+        #model: "ErdosRenyi"
+        model: "GNM"
         n: 10
+        p: 20
         m: 20
-        seq: [1,1,3,4,5,6]
+        #seq: [1,1,3,4,5,6]
     anomaly:
         params:
             N: 2 # number of anomaly to add
@@ -17,10 +19,13 @@ TimeSerie:
     generate: True
     real_model_path: /yoshi # use real TS for parameter (?!)
     params:
+        model: "IidNoise"
+        #model: "RandomWalk"
         cumulative_sum: 160 # TODO : generate curve given its cumulative sum ... ? 
         duration: 12
         bound_up: 16 # upper bound
         bound_down: 1 # lower bound
+        prob: [0.95, 0.5]
         has_seasonality: False # TODO implement ? 
     anomaly:
         params:

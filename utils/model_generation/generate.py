@@ -1,5 +1,11 @@
+import os
+import ipdb
 import yaml
 import argparse
+
+import graph
+import timeserie
+#from graph import *
 
 def parser():
     """Initialize options for 'speech-features config'"""
@@ -13,18 +19,18 @@ def parser():
 
     args = parser.parse_args()    
 
-def read_config(yaml):
+def read_config(conf_file):
     """ Read yaml configuration file """
-    assert os.path.isfile(yaml), "input file doesn't exist"
-    config = yaml.load(yaml)
-
-    try:
-        check_config(config)
-        return config
-    except Exception as err:
-        print("Please fix the following error in configuration file:")
-        print(err)
-        raise IOError
+    assert os.path.isfile(conf_file), "input file doesn't exist"
+    config = yaml.load(open(conf_file, 'r'), Loader=yaml.FullLoader)
+    return config
+    #try:
+    #    check_config(config)
+    #    return config
+    #except Exception as err:
+    #    print("Please fix the following error in configuration file:")
+    #    print(err)
+    #    raise IOError
 
 def check_config(config):
     """ Check consistency of configuration file """
@@ -65,12 +71,21 @@ def main():
     args = parser.parse_args()
 
     config = read_config(args.yaml)
-
     if config['Graph']['generate']:
+        Model = getattr(graph, config['Graph']['params']['model'])
+        #generator = Model(**config['Graph']['params']['n'], config['Graph']['params']['p'])
+        generator = Model(**config['Graph']['params'])
+        generator.run()
+        generator.write_graph()
         # todo getparams
 
     if config['TimeSerie']['generate']:
-        # todo getparams
+        Model = getattr(timeserie, config['TimeSerie']['params']['model'])
+        #generator = Model(config['TimeSerie']['params']['duration'], config['TimeSerie']['params']['bound_up'], config['TimeSerie']['params']['bound_down'])
+        generator = Model(**config['TimeSerie']['params'])
+        generator.run()
+        generator.write_TS()
+
 
 if __name__ == "__main__":
     main()
