@@ -1,4 +1,3 @@
-import ipdb
 import argparse
 
 from networkx.generators.random_graphs import gnm_random_graph
@@ -27,8 +26,12 @@ class AbstractGraphGenerator():
         raise NotImplementedError
 
     def write_graph(self,):
+        # sort nodes
         for (u, v) in self.graph.iterEdges():
-            print((u,v))
+            if u<v :
+                print((u,v))
+            else:
+                print((v,u))
 
     def run(self):
         raise NotImplementedError
@@ -46,8 +49,9 @@ class EdgeSwitchingMarkovChain(AbstractGraphGenerator):
     """
 
     def __init__(self, **kwargs):
-        self.sequence = sequence
-        self.generator = EdgeSwitchingMarkovChain(self.sequence)
+        self.sequence = kwargs['seq']
+        self.generator = EdgeSwitchingMarkovChainGenerator(self.sequence)
+        self.generator.isRealizable()
         self.graph = None
 
     def run(self):
@@ -65,12 +69,12 @@ class HavelHakimi(AbstractGraphGenerator):
     """
 
     def __init__(self, **kwargs):
-        self.sequence = sequence
+        self.sequence = kwargs['seq']
         self.generator = HavelHakimiGenerator(self.sequence)
         self.graph = None
 
     def run(self):
-        graph = self.generator.generate()
+        self.graph = self.generator.generate()
 
 class ErdosRenyi(AbstractGraphGenerator):
     """ Wrapper of Networkit ErdosRenyiGenerator
