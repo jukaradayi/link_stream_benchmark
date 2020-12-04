@@ -1,4 +1,5 @@
 import argparse
+import random
 
 from networkx.generators.random_graphs import gnm_random_graph
 from networkit.generators import EdgeSwitchingMarkovChainGenerator, HavelHakimiGenerator, ErdosRenyiGenerator
@@ -25,13 +26,23 @@ class AbstractGraphGenerator():
     def is_realisable():
         raise NotImplementedError
 
-    def write_graph(self,):
+    def write_graph(self, rdm_weight = True):
+        ## TODO random weight
         # sort nodes
+        sum_weight = 0
         for (u, v) in self.graph.iterEdges():
-            if u<v :
-                print((u,v))
+            if rdm_weight:
+                weight = random.randint(1, 5)
             else:
-                print((v,u))
+                weight = 1
+            sum_weight += weight
+            if u<v :
+                print(f'{u},{v} {weight}')
+            else:
+                print(f'{v},{u} {weight}')
+        return sum_weight ## TODO REMOVE THIS UGLY THING
+    def generate_weight(self):
+        raise NotImplementedError
 
     def run(self):
         raise NotImplementedError
@@ -150,9 +161,23 @@ class GNM(AbstractGraphGenerator):
         self.m = kwargs['m']
         #self.seed = seed if not None else None
 
-    def write_graph(self,):
-        for (u, v) in self.graph.edges():
-            print((u,v))
+    def write_graph(self, out_path, rdm_weight=True):
+        with open(out_path, 'w') as fout:
+            sum_weight = 0
+            for (u, v) in self.graph.edges():
+                if rdm_weight:
+                    weight = random.randint(1, 5)
+                else:
+                    weight = 1
+                sum_weight += weight
+                if u<v :
+                    fout.write(f'{u},{v} {weight}\n')
+                else:
+                    fout.write(f'{v},{u} {weight}\n')
+            
+            #for (u, v) in self.graph.edges():
+            #    print((u,v))
+        return sum_weight
 
     def run(self):
         print(self.n)

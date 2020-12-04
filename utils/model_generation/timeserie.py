@@ -5,6 +5,7 @@ TODO DEFINE INPUT PARAMETERS
 import os
 import sys
 import numpy as np
+import random
 
 class AbstractTSGenerator():
     """ Abstract Class for timeseries Generators
@@ -51,12 +52,12 @@ class FromDataset(AbstractTSGenerator):
                 t, v = line.strip().split()
                 self.timeserie.append((float(t), float(v)))
 
-    @parameter
+    #@parameter
     def duration(self):
          """ assuming timeserie well ordered... """
          return self.timeserie[-1][0] - self.timeserie[0][0]
 
-    @parameter
+    #@parameter
     def value_distribution(self):
         return [val for t, val in self.timeserie]
 
@@ -74,13 +75,31 @@ class IidNoise(AbstractTSGenerator):
         self.bound_up = kwargs['bound_up']
         self.bound_down = kwargs['bound_down']
 
-    def write_TS(self):
-        print(self.time_serie)
+    def write_TS(self,out_path, sum_weight):
+
+        # stupid way to get correct sum
+        print('writing timeseire')
+        print(sum_weight)
+        print(sum_weight - sum(self.time_serie))
+        while (abs(sum_weight - sum(self.time_serie))>0):
+            sign = np.sign(sum_weight - sum(self.time_serie)) 
+            ind = random.randint(0, len(self.time_serie)-1)
+            if self.time_serie[ind]>0:
+                self.time_serie[ind] += sign * 1
+            else:
+                continue
+            print(sum_weight - sum(self.time_serie))
+        with open(out_path,'w') as fout:
+            for time, val in enumerate(self.time_serie):
+                fout.write(f'{time} {val}\n')
+        #print(self.time_serie)
 
     def run(self):
-        self.time_serie = ((self.bound_up - self.bound_down) 
-                * np.random.random_sample(size=(self.duration,)) 
-                + self.bound_down)
+        #self.time_serie = ((self.bound_up - self.bound_down) 
+        #        * np.random.random_sample(size=(self.duration,)) 
+        #        + self.bound_down)
+        self.time_serie = np.random.randint(low = self.bound_down, high = self.bound_up,
+                                            size = self.duration)
         
 
 class RandomWalk(AbstractTSGenerator):

@@ -6,7 +6,33 @@ import argparse
 import graph
 import timeserie
 #from graph import *
+"""
+output format
+timeserie:
+0 1
+1573 1
+5768 1
+9481 1
+10406 1
+11436 1
+12776 1
+13223 1
+14902 1
+17016 1
 
+graph:
+<0-1>,<1-1> 3
+<0-1>,<1-2> 2
+<0-1>,<2-1> 1
+<0-1>,<2-2> 4
+<0-2>,<0-1> 1
+<0-2>,<1-1> 9
+<0-2>,<1-2> 14
+<0-2>,<2-1> 9
+<0-2>,<2-2> 5
+<0-2>,<2-3> 3
+
+"""
 def parser():
     """Initialize options for 'speech-features config'"""
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -72,19 +98,21 @@ def main():
 
     config = read_config(args.yaml)
     if config['Graph']['generate']:
+        print('graphing')
         Model = getattr(graph, config['Graph']['params']['model'])
         #generator = Model(**config['Graph']['params']['n'], config['Graph']['params']['p'])
         generator = Model(**config['Graph']['params'])
         generator.run()
-        generator.write_graph()
+        sum_weight = generator.write_graph(config['Graph']['out_path'])
         # todo getparams
 
     if config['TimeSerie']['generate']:
+        print('timing')
         Model = getattr(timeserie, config['TimeSerie']['params']['model'])
         #generator = Model(config['TimeSerie']['params']['duration'], config['TimeSerie']['params']['bound_up'], config['TimeSerie']['params']['bound_down'])
         generator = Model(**config['TimeSerie']['params'])
         generator.run()
-        generator.write_TS()
+        generator.write_TS(config['TimeSerie']['out_path'],sum_weight)
 
 
 if __name__ == "__main__":
