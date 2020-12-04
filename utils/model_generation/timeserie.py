@@ -18,10 +18,47 @@ class AbstractTSGenerator():
 
     """
     def __init__(self, **kwargs):
-        self.duration = duration
+        self.duration = kwargs['duration']
 
     def run(self):
         raise NotImplementedError
+
+class FromDataset(AbstractTSGenerator):
+    """ Extract parameters from real dataset
+        Can be plugged in with other models
+        
+        Attributes:
+        -----------
+        dataset: str
+            path to the input timeserie, stored as a text files with the following format
+                t1 val1
+                t2 val2
+                t3 val3
+                .
+                .
+                .
+
+            where ti is the ith timestamps, and vali is the time series value at time ti.
+    """
+    def __init__(self, **kwargs):
+        self.dataset = kwargs['dataset']
+        self.timeserie = []
+
+    def read_input(self):
+        with open(self.dataset, 'r') as fin: ## put other option to read gz
+            data = fin.readlines()
+            for line in data:
+                t, v = line.strip().split()
+                self.timeserie.append((float(t), float(v)))
+
+    @parameter
+    def duration(self):
+         """ assuming timeserie well ordered... """
+         return self.timeserie[-1][0] - self.timeserie[0][0]
+
+    @parameter
+    def value_distribution(self):
+        return [val for t, val in self.timeserie]
 
 class IidNoise(AbstractTSGenerator):
     """ Generate IID noise

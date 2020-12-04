@@ -1,26 +1,41 @@
 #!/bin/bash
 #
 # complete pipeline
+set -e
+export LC_ALL=C
 
-# parse input yaml
-# https://stackoverflow.com/questions/5014632/how-can-i-parse-a-yaml-file-from-a-linux-shell-script
-# TODO FIND ANOTHER PARSER -- TOO SPECIFIC...
-#function parse_yaml {
-#   local prefix=$2
-#   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
-#   sed -ne "s|^\($s\):|\1|" \
-#        -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
-#        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
-#   awk -F$fs '{
-#      indent = length($1)/4;
-#      vname[indent] = $2;
-#      for (i in vname) {if (i > indent) {delete vname[i]}}
-#      if (length($3) > 0) {
-#         vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
-#         printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
-#      }
-#   }'
-#}
+# prepare data
+function prepare_data {
+basename=$1
+grain=$2
+memory=$3
+cpu=$4
+
+echo "remove loops etc."
+# take a raw dataset in "t u v" format; remove loops and multiple links *considered undirected*; round timestamps to an int, according to given "$grain", and start it at 0; sort according to time
+unpigz -c $basename.gz | awk '{if ($2!=$3) print $0;}' | awk '{if ("$2"<"$3") print $0; else print $1,$3,$2;}' | awk -v g=$grain '{print int($1/g),$2,$3;}' | sort -k1,1n -k2 -u -T. -S$memory --parallel=$cpu | awk '{if (NR==1) first=$1; print $1-first,$2,$3;}' | pigz -c > "$basename".clean.gz
+echo "done."
+
+echo "compute time series."
+# compute the time series; assumes input is time-ordered
+unpigz -c $basename.clean.gz | cut -d" " -f1 | uniq -c | mawk '{print $2,$1;}' > $basename.ts
+echo "done."
+ 
+echo "compute graph weights."
+# compute the graph weight function, and make each link a unique identifier composed of the two node identifiers u and v separated by a coma: u,v
+# assumes node identifiers contain no comma
+unpigz -c $basename.clean.gz | mawk '{print $2","$3;}' | sort -T. -S$memory --parallel=$cpu | uniq -c | mawk '{print $2,$1;}' > $basename.weight
+echo "done."
+
+
+echo "compute distributions."
+# compute time series and weight distributions
+for ext in "ts" "weight"
+    do
+        cat $basename.$ext | cut -d" " -f2 | sort -T. -S$memory --parallel=$cpu -n | uniq -c | mawk '{print $2,$1;}' > $basename.$ext.d
+    done
+echo "done."
+}
 
 ## DIRECTORIES
 # get current script path - works with bash
@@ -36,11 +51,9 @@ function cleanup {
     rm -rf $TMP
 }
 
-trap cleanup EXIT
+#trap cleanup EXIT
 
 ## Parameters : parse yaml for inputs
-#parse_yaml ./benchmark.yaml
-#eval $(parse_yaml ./benchmark.yaml)
 source benchmark.conf
 
 # Pre process Data 
@@ -53,11 +66,16 @@ source benchmark.conf
 
 ### TAXI 
 echo "building taxi stream"
-echo $data_taxi_gridHeight
-python3 $TAXI_PREPROC/build_stream.py --input_file=$taxi_dataDir/nyc_taxi_data.csv --output_file=$TMP/taxi_stream.txt --n=$taxi_gridHeight | exit 1
+python3 $TAXI_PREPROC/build_stream.py --input_file=$taxi_dataDir/nyc_taxi_data.csv --output_file=$TMP/taxi_stream.txt --n=$taxi_gridHeight --simplify 
+gzip $TMP/taxi_stream.txt
+
 # prepare data - from Taxi_1000000/cmdes
 echo "preparing taxi data"
-$UTILS/prepare_data.sh $TMP/taxi_stream.txt $data_taxi_grain 30g 2 > $TMP/out
+prepare_data $TMP/taxi_stream.txt $taxi_grain 30g 2 
+echo "prepared"
+gzip $TMP/taxi_stream.txt.ts
+gzip $TMP/taxi_stream.txt.weight
+
 #0.5 30g 10 > out 2> err &
 
 ##### PERU
@@ -73,6 +91,6 @@ $UTILS/prepare_data.sh $TMP/taxi_stream.txt $data_taxi_grain 30g 2 > $TMP/out
 
 # from time serie and graph, generate link stream using genbip
 #python genbip
-
+python $GENBIP/cli.py  --top $TMP/taxi_stream.txt.weight.gz --bot $TMP/taxi_stream.txt.ts.gz --gen havelhakimi --out $TMP/taxi_bip
 
 

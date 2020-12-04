@@ -36,9 +36,42 @@ class AbstractGraphGenerator():
     def run(self):
         raise NotImplementedError
 
+class FromDataset(AbstractGraphGenerator):
+    """ Get parameters from real dataset
+        Can be plugged in with other models
+        
+        Attributes:
+        -----------
+        dataset: str
+            path to the input graph, stored as a text files with the following format
+                u1 v1 val1
+                u2 v2 val2
+                u3 v3 val3
+                .
+                .
+                .
+
+            where ui vi is an edge between nodes ui and vi , and val i is the weight of this edge
+    """
+    def __init__(self, **kwargs):
+        self.dataset = kwargs['dataset']
+        self.graph = []
+
+    def read_input(self):
+        with open(self.dataset, 'r') as fin: ## put other option to read gz
+            data = fin.readlines()
+            for line in data:
+                u_, v_, w_ = line.strip().split()
+                u, v, w = int(u), int(v), int(w)
+                if u <= v:
+                    self.graph.append((u, v, w))
+                else:
+                    self.graph.append((v, u, w))
+
 
 class EdgeSwitchingMarkovChain(AbstractGraphGenerator):
-    """ Wrapper of Networkit EdgeSwitchingMarkovChainGenerator
+    """ Wrapper of Networkit EdgeSwitchingMarkovChainGenerator 
+        Also called 'configuration model' in networkit.
         TODO
         Parameters:
         -----------
