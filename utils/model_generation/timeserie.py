@@ -45,7 +45,7 @@ class FromDataset(AbstractTSGenerator):
         self.dataset = kwargs['dataset']
         self.distribution = []
 
-    def _read_input(self):
+    def _read_dataset(self):
         with open(self.dataset, 'r') as fin: ## put other option to read gz
             data = fin.readlines()
             for line in data:
@@ -71,7 +71,7 @@ class FromDataset(AbstractTSGenerator):
 
 
     def run(self):
-        self._read_input()
+        self._read_dataset()
         self._generate_from_distribution()
 
     #@parameter

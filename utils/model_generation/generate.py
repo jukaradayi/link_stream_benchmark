@@ -112,7 +112,7 @@ def main():
         #generator = Model(config['TimeSerie']['params']['duration'], config['TimeSerie']['params']['bound_up'], config['TimeSerie']['params']['bound_down'])
         generator = Model(**config['TimeSerie']['params'])
         generator.run()
-        generator.write_TS(config['TimeSerie']['out_path'],sum_weight)
+        generator.write_TS(config['TimeSerie']['out_path'])
 
 
 if __name__ == "__main__":

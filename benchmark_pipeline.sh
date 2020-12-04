@@ -1,10 +1,16 @@
 #!/bin/bash
 #
 # complete pipeline
+
+# prepare environment
 set -e
 export LC_ALL=C
 
-# prepare data
+# function definition ## TODO use temp dir and fix output names 
+function cleanup {
+    rm -rf $TMP
+}
+
 function prepare_data {
 basename=$1
 grain=$2
@@ -37,60 +43,67 @@ for ext in "ts" "weight"
 echo "done."
 }
 
-## DIRECTORIES
-# get current script path - works with bash
+# define directories
+## get current script path - works with bash
 CUR_DIR=$( cd $( dirname ${BASH_SOURCE[0]} ) >/dev/null 2>&1 && pwd )
 GENBIP=$CUR_DIR/utils/genbip/genbip
 TAXI_PREPROC=$CUR_DIR/utils/nyc_taxi_stream/nyc_taxi_stream
+MAWI_PREPROC=$CUR_DIR/utils/mawi_stream
 UTILS=$CUR_DIR/utils
 TMP=$(mktemp -d -t benchmark-XXXXXXXXXX)
 echo $TMP
 
 # cleanup on exit
-function cleanup {
-    rm -rf $TMP
-}
-
 #trap cleanup EXIT
 
-## Parameters : parse yaml for inputs
+# Parameters 
 source benchmark.conf
 
 # Pre process Data 
-# TODO mawi taxi etc..
-#### MAWI
-#if [ $real_data_mawi_params_only_reciproc_links ]; then
-#    ./reciprocity_check.sh
-## from Mawi_10-5/cmdes
-#prepare_data.sh mawi 10 230g 24 > mawi_prepare.out 2> mawi_prepare.err &
+## MAWI
+if [ "$mawi_process" = true ]; then
+    mkdir $TMP/mawi
+    bash $MAWI_PREPROC/build_stream.sh $mawi_dataDir/*pcap $TMP $mawi_check_reciprocity $mawi_keep_ports
+    
+    prepare_data $TMP/mawi_stream.txt $mawi_grain 230g 24 # > mawi_prepare.out 2> mawi_prepare.err &
+fi
 
-### TAXI 
-echo "building taxi stream"
-python3 $TAXI_PREPROC/build_stream.py --input_file=$taxi_dataDir/nyc_taxi_data.csv --output_file=$TMP/taxi_stream.txt --n=$taxi_gridHeight --simplify 
-gzip $TMP/taxi_stream.txt
+## TAXI 
+if [ "$taxi_process" = true ]; then
+    mkdir $TMP/taxi
+    echo "building taxi stream"
+    python3 $TAXI_PREPROC/build_stream.py --input_file=$taxi_dataDir/nyc_taxi_data.csv --output_file=$TMP/taxi_stream.txt --n=$taxi_gridHeight --simplify 
+    gzip $TMP/taxi_stream.txt
+    
+    echo "preparing taxi data"
+    prepare_data $TMP/taxi_stream.txt $taxi_grain 30g 2 
+    echo "prepared"
+    gzip $TMP/taxi_stream.txt.ts
+    gzip $TMP/taxi_stream.txt.weight
+fi
 
-# prepare data - from Taxi_1000000/cmdes
-echo "preparing taxi data"
-prepare_data $TMP/taxi_stream.txt $taxi_grain 30g 2 
-echo "prepared"
-gzip $TMP/taxi_stream.txt.ts
-gzip $TMP/taxi_stream.txt.weight
+## PERU
+if [ "$peru_process" = true ]; then
+    mkdir $TMP/peru
 
-#0.5 30g 10 > out 2> err &
+    prepare_data $peru_dataDir/peru $peru_grain 80g 20 > out 2> err &
+fi
 
-##### PERU
-## from Peru/cmdes
-#../prepare_data.sh peru 1 80g 20 > out 2> err &
-#
-#### BITCOIN
-## from Bitcoin/cmdes
-#../prepare_data.sh bitcoin_full 1 200g 24 >out 2> err &
+## BITCOIN
+if [ "$bitcoin_process" = true]; then
+    mkdir $TMP/bitcoin
 
-# generate time series and graph 
-#prepare_data
+    prepare_data $bitcoin_dataDir/bitcoin_full $peru_grain 200g 24 >out 2> err &
+fi
+
+# Run Models
+if [ "$model_process" = true]; then
+    mkdir $TMP/models
+
+    $UTILS/model_generation
+fi
 
 # from time serie and graph, generate link stream using genbip
-#python genbip
 python $GENBIP/cli.py  --top $TMP/taxi_stream.txt.weight.gz --bot $TMP/taxi_stream.txt.ts.gz --gen havelhakimi --out $TMP/taxi_bip
 
 
