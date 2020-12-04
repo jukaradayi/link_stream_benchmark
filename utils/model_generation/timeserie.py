@@ -43,14 +43,36 @@ class FromDataset(AbstractTSGenerator):
     """
     def __init__(self, **kwargs):
         self.dataset = kwargs['dataset']
-        self.timeserie = []
+        self.distribution = []
 
-    def read_input(self):
+    def _read_input(self):
         with open(self.dataset, 'r') as fin: ## put other option to read gz
             data = fin.readlines()
             for line in data:
-                t, v = line.strip().split()
-                self.timeserie.append((float(t), float(v)))
+                val, weight = line.strip().split()
+                self.distribution.append((int(val), int(weight)))
+
+    def _generate_from_distribution(self):
+        """ given a timeserie's distribution, generate a time serie"""
+        # get ordered array of values
+        self.time_serie = np.array((0,))
+        for val, weight in self.distribution:
+            self.time_serie = np.concatenate((self.time_serie, val * np.ones((weight,))), axis=0)
+
+        # then shuffle it
+        np.random.shuffle(self.time_serie)
+
+    def write_TS(self,out_path):
+
+        with open(out_path,'w') as fout:
+            for time, val in enumerate(self.time_serie):
+                fout.write(f'{time} {val}\n')
+        #print(self.time_serie)
+
+
+    def run(self):
+        self._read_input()
+        self._generate_from_distribution()
 
     #@parameter
     def duration(self):
