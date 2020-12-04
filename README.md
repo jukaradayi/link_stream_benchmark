@@ -1,7 +1,17 @@
 BENCHMARK PIPELINE
 ==================
 
-WIP
+WIP 
+## TODO : 
+    - Test pipeline on complete taxi (for time) - already tested complete pipeline on subpart of taxi w/grid 5
+    - test pipeline on mawi
+    - implement configuration check for model generation & pipeline
+    - order as package
+    - documentation (w/ sphinx ?)
+    - Regarding models (random):
+        - currently no anomaly
+        - timeserie from real data=Done
+        - graph weight from real data: WIP (should test)
 
 This repository contains scripts to generate the benchmark dataset (#TODO give a better name to the "benchmark dataset" ?)
 
