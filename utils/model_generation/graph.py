@@ -1,4 +1,5 @@
 import argparse
+import ipdb
 import random
 
 from networkx.generators.random_graphs import gnm_random_graph
@@ -26,21 +27,26 @@ class AbstractGraphGenerator():
     def is_realisable():
         raise NotImplementedError
 
-    def write_graph(self, rdm_weight = True):
+    def write_graph(self, weights = None):
         ## TODO random weight
         # sort nodes
         sum_weight = 0
-        for (u, v) in self.graph.iterEdges():
+        if weights is not None:
+            iterator = zip(self.graph.iterEdges(), weights)
+        else:
+            iterator = self.graph.iterEdges()
+        for (u, v) in iterator:
             if rdm_weight:
                 weight = random.randint(1, 5)
             else:
                 weight = 1
             sum_weight += weight
             if u<v :
-                print(f'{u},{v} {weight}')
+                fout.write(f'{u},{v} {weight}\n')
             else:
-                print(f'{v},{u} {weight}')
+                fout.write(f'{v},{u} {weight}\n')
         return sum_weight ## TODO REMOVE THIS UGLY THING
+
     def generate_weight(self):
         raise NotImplementedError
 
@@ -182,4 +188,5 @@ class GNM(AbstractGraphGenerator):
     def run(self):
         print(self.n)
         print(self.m)
+        ipdb.set_trace()
         self.graph = gnm_random_graph(self.n, self.m, seed=None, directed=False)
