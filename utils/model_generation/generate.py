@@ -7,6 +7,7 @@ import graph
 import timeserie
 import weighted_graph
 #from graph import *
+from utils import *
 
 """
 output format
@@ -60,21 +61,21 @@ def read_config(conf_file):
     #    print(err)
     #    raise IOError
 
-def check_config(config):
-    """ Check consistency of configuration file """
-    # graph check
-    assert config["Graph"]["params"]["m"] == sum(config["Graph"]["params"]["seq"] ), "Graph : number of edges should be sum of degree sequence"
-    assert config["Graph"]["params"]["m"] > 0
-    assert config["Graph"]["params"]["n"] > 0
-
-    # timeseries check
-    assert config["TimeSerie"]["params"]["duration"] > 0, "TimeSerie: can't generate time serie with duration <0"
-    assert config["TimeSerie"]["params"]["bound_up"] >  config["TimeSerie"]["params"]["bound_down"]
-    
-    # graph TS check 
-    ## TODO weights ?!
-    # assert config["TimeSerie"]["params"]["cumulative_sum"] == sum(config["Graph"]["params"]["weights"]
-
+#def check_config(config):
+#    """ Check consistency of configuration file """
+#    # graph check
+#    assert config["Graph"]["params"]["m"] == sum(config["Graph"]["params"]["seq"] ), "Graph : number of edges should be sum of degree sequence"
+#    assert config["Graph"]["params"]["m"] > 0
+#    assert config["Graph"]["params"]["n"] > 0
+#
+#    # timeseries check
+#    assert config["TimeSerie"]["params"]["duration"] > 0, "TimeSerie: can't generate time serie with duration <0"
+#    assert config["TimeSerie"]["params"]["bound_up"] >  config["TimeSerie"]["params"]["bound_down"]
+#    
+#    # graph TS check 
+#    ## TODO weights ?!
+#    # assert config["TimeSerie"]["params"]["cumulative_sum"] == sum(config["Graph"]["params"]["weights"]
+#
 def main():
     parser = argparse.ArgumentParser(description='Graph and Time serie generator')
     parser.add_argument(
@@ -99,6 +100,7 @@ def main():
     args = parser.parse_args()
 
     config = read_config(args.yaml)
+    check_config(config)
     if config['Graph']['generate']:
         print('graphing')
         Model = getattr(graph, config['Graph']['params']['model'])

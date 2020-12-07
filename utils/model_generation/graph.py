@@ -178,14 +178,11 @@ class GNM(AbstractGraphGenerator):
         with open(out_path, 'w') as fout:
 
 
-            for (u, weight) in iterator:
-                #if u<v :
-                fout.write(f'{u} {weight}\n')
-                #else:
-                #    fout.write(f'{v} {weight}\n')
+            for ((u, v), weight) in iterator:
+                if u<v :
+                    fout.write(f'{u},{v} {weight}\n')
+                else:
+                    fout.write(f'{v},{u} {weight}\n')
 
     def run(self):
-        print(self.n)
-        print(self.m)
-        ipdb.set_trace()
         self.graph = gnm_random_graph(self.n, self.m, seed=None, directed=False)

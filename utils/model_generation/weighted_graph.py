@@ -1,6 +1,8 @@
 import argparse
 import numpy as np
 import random
+
+from utils import _read_dataset
 from graph import AbstractGraphGenerator
 
 """ add weight to graphs """
