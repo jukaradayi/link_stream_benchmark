@@ -3,12 +3,14 @@ BENCHMARK PIPELINE
 
 WIP 
 ## TODO : 
-    - Test pipeline on complete taxi (for time) - already tested complete pipeline on subpart of taxi w/grid 5
-    - test pipeline on mawi
+    - Test pipeline on complete taxi (for time) - already tested complete pipeline on subpart of taxi w/grid 5 WIP
+    - test pipeline on mawi WIP
     - implement configuration check for model generation & pipeline
     - order as package
     - documentation (w/ sphinx ?)
     - Regarding models (random):
+        - check if able to scale (huge input ?)
+        - How choose n for graph : clarify inputs ... (j'aime pas le côté choisir n&m + je rentre un dataset ... => si dataset choisir que n?)
         - currently no anomaly
         - timeserie from real data=Done
         - graph weight from real data: WIP (should test)

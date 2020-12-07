@@ -15,6 +15,7 @@ CUR_DIR=$( cd $( dirname ${BASH_SOURCE[0]} ) >/dev/null 2>&1 && pwd )
 GENBIP=$CUR_DIR/utils/genbip/genbip
 TAXI_PREPROC=$CUR_DIR/utils/nyc_taxi_stream/nyc_taxi_stream
 MAWI_PREPROC=$CUR_DIR/utils/mawi_stream
+MODEL_GEN=$CUR_DIR/utils/model_generation
 UTILS=$CUR_DIR/utils
 TMP=$(mktemp -d -t benchmark-XXXXXXXXXX) # temp directory to store partial files
 echo $TMP
@@ -33,9 +34,12 @@ source benchmark.conf
 ## MAWI
 if [ "$mawi_process" = true ]; then
     mkdir $TMP/mawi
-    bash $MAWI_PREPROC/build_stream.sh $mawi_dataDir/*pcap $TMP $mawi_check_reciprocity $mawi_keep_ports
-    
-    prepare_data $TMP/mawi_stream.txt $mawi_grain 230g 24 # > mawi_prepare.out 2> mawi_prepare.err &
+    bash $MAWI_PREPROC/build_stream.sh $mawi_data_dir/201306021400.dump $TMP $mawi_check_reciprocity $mawi_keep_ports
+    gzip $TMP/mawi_stream.txt
+   
+    prepare_data $TMP/mawi_stream.txt $mawi_grain 30G 2 # > mawi_prepare.out 2> mawi_prepare.err &
+    gzip $TMP/mawi_stream.txt.weight
+    gzip $TMP/mawi_stream.txt.ts
 fi
 
 ## TAXI 
@@ -60,20 +64,23 @@ if [ "$peru_process" = true ]; then
 fi
 
 ## BITCOIN
-if [ "$bitcoin_process" = true]; then
+if [ "$bitcoin_process" = true ]; then
     mkdir $TMP/bitcoin
 
     prepare_data $bitcoin_dataDir/bitcoin_full $peru_grain 200g 24 >out 2> err &
 fi
 
 # Run Models
-if [ "$model_process" = true]; then
+if [ "$model_process" = true ]; then
     mkdir $TMP/models
-
-    $UTILS/model_generation
+    python $MODEL_GEN/generate.py -y $MODEL_GEN/modelGeneration.yaml -o $TMP
+    gzip $TMP/model.ts
+    gzip $TMP/model.weight
 fi
 
 # from time serie and graph, generate link stream using genbip
-python $GENBIP/cli.py  --top $TMP/taxi_stream.txt.weight.gz --bot $TMP/taxi_stream.txt.ts.gz --gen havelhakimi --out $TMP/taxi_bip
+#python $GENBIP/cli.py  --top $TMP/taxi_stream.txt.weight.gz --bot $TMP/taxi_stream.txt.ts.gz --gen havelhakimi --out $TMP/taxi_bip
+python $GENBIP/cli.py  --top $TMP/mawi_stream.txt.weight.gz --bot $TMP/mawi_stream.txt.ts.gz --gen havelhakimi --out $TMP/mawi_bip
 
+python $GENBIP/cli.py  --top $TMP/model.weight.gz --bot $TMP/model.ts.gz --gen havelhakimi --out $TMP/model_bip
 

@@ -1,6 +1,7 @@
 import os
 import ipdb
 import yaml
+import shutil
 import argparse
 
 import graph
@@ -101,6 +102,8 @@ def main():
 
     config = read_config(args.yaml)
     check_config(config)
+    if not os.path.isdir(args.output):
+        os.makedirs(args.output)
     if config['Graph']['generate']:
         print('graphing')
         Model = getattr(graph, config['Graph']['params']['model'])
@@ -113,15 +116,16 @@ def main():
         weighted = weighted_graph.WeightFromDataset(generator.graph, **config['Graph']['params'])
         weighted.run()
         # todo getparams
-        generator.write_graph(config['Graph']['out_path'], weighted.weights)
+        generator.write_graph(os.path.join(args.output, "model.weight"), weighted.weights)
 
     if config['TimeSerie']['generate']:
-        print('timing')
         Model = getattr(timeserie, config['TimeSerie']['params']['model'])
         #generator = Model(config['TimeSerie']['params']['duration'], config['TimeSerie']['params']['bound_up'], config['TimeSerie']['params']['bound_down'])
         generator = Model(**config['TimeSerie']['params'])
         generator.run()
-        generator.write_TS(config['TimeSerie']['out_path'])
+        generator.write_TS(os.path.join(args.output, "model.ts"))
+    # copy yaml in output folder
+    shutil.copyfile(args.yaml, os.path.join( args.output, "benchmark.yaml"))
 
 
 if __name__ == "__main__":

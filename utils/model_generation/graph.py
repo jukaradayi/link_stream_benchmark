@@ -179,6 +179,10 @@ class GNM(AbstractGraphGenerator):
 
 
             for ((u, v), weight) in iterator:
+                # don't write if weight is 0
+                if weight <= 0:
+                    continue
+
                 if u<v :
                     fout.write(f'{u},{v} {weight}\n')
                 else:

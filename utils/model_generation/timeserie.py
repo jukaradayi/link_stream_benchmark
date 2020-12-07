@@ -21,6 +21,14 @@ class AbstractTSGenerator():
     def __init__(self, **kwargs):
         self.duration = kwargs['duration']
 
+    def write_TS(self, out_path):
+
+        with open(out_path,'w') as fout:
+            for time, val in enumerate(self.time_serie):
+                # don't write if value is 0
+                if val > 0:
+                    fout.write(f'{time} {val}\n')
+
     def run(self):
         raise NotImplementedError
 
@@ -55,19 +63,19 @@ class TSFromDataset(AbstractTSGenerator):
     def _generate_from_distribution(self):
         """ given a timeserie's distribution, generate a time serie"""
         # get ordered array of values
-        self.time_serie = np.array((0,))
+        self.time_serie = np.array((0,),dtype='int32')
         for val, weight in self.distribution:
-            self.time_serie = np.concatenate((self.time_serie, val * np.ones((weight,))), axis=0)
+            self.time_serie = np.concatenate((self.time_serie, val * np.ones((weight,),dtype='int32')), axis=0)
 
         # then shuffle it
         np.random.shuffle(self.time_serie)
 
-    def write_TS(self,out_path):
+    #def write_TS(self,out_path):
 
-        with open(out_path,'w') as fout:
-            for time, val in enumerate(self.time_serie):
-                fout.write(f'{time} {val}\n')
-        #print(self.time_serie)
+    #    with open(out_path,'w') as fout:
+    #        for time, val in enumerate(self.time_serie):
+    #            fout.write(f'{time} {val}\n')
+    #    #print(self.time_serie)
 
 
     def run(self):
@@ -97,24 +105,19 @@ class IidNoise(AbstractTSGenerator):
         self.bound_up = kwargs['bound_up']
         self.bound_down = kwargs['bound_down']
 
-    def write_TS(self,out_path, sum_weight):
-
-        # stupid way to get correct sum
-        print('writing timeseire')
-        print(sum_weight)
-        print(sum_weight - sum(self.time_serie))
-        while (abs(sum_weight - sum(self.time_serie))>0):
-            sign = np.sign(sum_weight - sum(self.time_serie)) 
-            ind = random.randint(0, len(self.time_serie)-1)
-            if self.time_serie[ind]>0:
-                self.time_serie[ind] += sign * 1
-            else:
-                continue
-            print(sum_weight - sum(self.time_serie))
-        with open(out_path,'w') as fout:
-            for time, val in enumerate(self.time_serie):
-                fout.write(f'{time} {val}\n')
-        #print(self.time_serie)
+    #def write_TS(self,out_path):
+    #    while (abs(sum_weight - sum(self.time_serie))>0):
+    #        sign = np.sign(sum_weight - sum(self.time_serie)) 
+    #        ind = random.randint(0, len(self.time_serie)-1)
+    #        if self.time_serie[ind]>0:
+    #            self.time_serie[ind] += sign * 1
+    #        else:
+    #            continue
+    #        print(sum_weight - sum(self.time_serie))
+    #    with open(out_path,'w') as fout:
+    #        for time, val in enumerate(self.time_serie):
+    #            fout.write(f'{time} {val}\n')
+    #    #print(self.time_serie)
 
     def run(self):
         #self.time_serie = ((self.bound_up - self.bound_down) 
@@ -136,8 +139,8 @@ class RandomWalk(AbstractTSGenerator):
         self.prob = kwargs['prob']
         self.duration = kwargs['duration']
 
-    def write_TS(self):
-        print(self.time_serie)
+    #def write_TS(self):
+    #    print(self.time_serie)
 
     def run(self):
           

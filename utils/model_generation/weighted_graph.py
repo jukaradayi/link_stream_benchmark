@@ -43,7 +43,7 @@ class WeightFromDataset(AbstractWeightedGraph):
         ## TODO : otherwise just get counters ... 
         self.weights = np.array((0,))
         for val, weight in self.distribution:
-            self.weights = np.concatenate((self.weights, val * np.ones((weight,))), axis=0)
+            self.weights = np.concatenate((self.weights, val * np.ones((weight,),dtype="int32")), axis=0)
 
         # then shuffle it
         np.random.shuffle(self.weights)
