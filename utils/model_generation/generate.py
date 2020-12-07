@@ -5,7 +5,9 @@ import argparse
 
 import graph
 import timeserie
+import weighted_graph
 #from graph import *
+
 """
 output format
 timeserie:
@@ -103,8 +105,13 @@ def main():
         #generator = Model(**config['Graph']['params']['n'], config['Graph']['params']['p'])
         generator = Model(**config['Graph']['params'])
         generator.run()
-        sum_weight = generator.write_graph(config['Graph']['out_path'])
+
+
+        # generate weights from dataset
+        weighted = weighted_graph.WeightFromDataset(generator.graph, **config['Graph']['params'])
+        weighted.run()
         # todo getparams
+        generator.write_graph(config['Graph']['out_path'], weighted.weights)
 
     if config['TimeSerie']['generate']:
         print('timing')

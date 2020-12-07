@@ -30,7 +30,7 @@ class AbstractGraphGenerator():
     def write_graph(self, weights = None):
         ## TODO random weight
         # sort nodes
-        sum_weight = 0
+        #sum_weight = 0
         if weights is not None:
             iterator = zip(self.graph.iterEdges(), weights)
         else:
@@ -45,7 +45,7 @@ class AbstractGraphGenerator():
                 fout.write(f'{u},{v} {weight}\n')
             else:
                 fout.write(f'{v},{u} {weight}\n')
-        return sum_weight ## TODO REMOVE THIS UGLY THING
+        #return sum_weight ## TODO REMOVE THIS UGLY THING
 
     def generate_weight(self):
         raise NotImplementedError
@@ -167,23 +167,22 @@ class GNM(AbstractGraphGenerator):
         self.m = kwargs['m']
         #self.seed = seed if not None else None
 
-    def write_graph(self, out_path, rdm_weight=True):
+    def write_graph(self, out_path, weights):
+        ## TODO random weight
+        # sort nodes
+        #sum_weight = 0
+        if weights is not None:
+            iterator = zip(self.graph.edges(), weights)
+        else:
+            iterator = self.graph.iterEdges()
         with open(out_path, 'w') as fout:
-            sum_weight = 0
-            for (u, v) in self.graph.edges():
-                if rdm_weight:
-                    weight = random.randint(1, 5)
-                else:
-                    weight = 1
-                sum_weight += weight
-                if u<v :
-                    fout.write(f'{u},{v} {weight}\n')
-                else:
-                    fout.write(f'{v},{u} {weight}\n')
-            
-            #for (u, v) in self.graph.edges():
-            #    print((u,v))
-        return sum_weight
+
+
+            for (u, weight) in iterator:
+                #if u<v :
+                fout.write(f'{u} {weight}\n')
+                #else:
+                #    fout.write(f'{v} {weight}\n')
 
     def run(self):
         print(self.n)

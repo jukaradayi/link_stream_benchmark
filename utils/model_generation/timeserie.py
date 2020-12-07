@@ -24,7 +24,7 @@ class AbstractTSGenerator():
     def run(self):
         raise NotImplementedError
 
-class FromDataset(AbstractTSGenerator):
+class TSFromDataset(AbstractTSGenerator):
     """ Extract parameters from real dataset
         Can be plugged in with other models
         
