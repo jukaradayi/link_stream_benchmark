@@ -22,21 +22,25 @@ class AbstractWeightedGraph(AbstractGraphGenerator): # pas sûr  de la dépendan
 class WeightFromDataset(AbstractWeightedGraph):
     """ Read real graph weight distribution and generate weights
         check https://iopscience.iop.org/article/10.1088/1367-2630/11/7/073005/pdf
+        
+
+        2 cases : - read from distribution
+                  - read from nb_interactions 
+
     """
     def __init__(self, graph, **kwargs):
         self.graph = graph
-        print(kwargs)
-        self.dataset = kwargs['dataset']
-
-    def _read_dataset(self):
-        self.counter = dict()
-        self.distribution = []
-        with open(self.dataset, 'r') as fin: ## put other option to read gz
-            data = fin.readlines()
-            for line in data:
-                val, weight = line.strip().split()
-                self.distribution.append((int(val), int(weight)))
-                self.counter[int(val)] = int(weight)
+        self.distribution = kwargs['dataset']
+    
+    #def _read_dataset(self):
+    #    self.counter = dict()
+    #    self.distribution = []
+    #    with open(self.dataset, 'r') as fin: ## put other option to read gz
+    #        data = fin.readlines()
+    #        for line in data:
+    #            val, weight = line.strip().split()
+    #            self.distribution.append((int(val), int(weight)))
+    #            self.counter[int(val)] = int(weight)
 
 
     def _generate_from_distribution(self): 
@@ -54,5 +58,5 @@ class WeightFromDataset(AbstractWeightedGraph):
             for e, val in enumerate(self.time_serie):
                 fout.write(f'{time} {val}\n')
     def run(self):
-        self._read_dataset()
+        #self._read_dataset()
         self._generate_from_distribution()

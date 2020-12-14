@@ -34,13 +34,8 @@ class AbstractGraphGenerator():
         if weights is not None:
             iterator = zip(self.graph.iterEdges(), weights)
         else:
-            iterator = self.graph.iterEdges()
-        for (u, v) in iterator:
-            if rdm_weight:
-                weight = random.randint(1, 5)
-            else:
-                weight = 1
-            sum_weight += weight
+            iterator = self.graph.iterEdges() # TODO add zip (ones) pour ajouter des poids fictifs ? 
+        for ((u, v), weight) in iterator:
             if u<v :
                 fout.write(f'{u},{v} {weight}\n')
             else:
@@ -53,38 +48,28 @@ class AbstractGraphGenerator():
     def run(self):
         raise NotImplementedError
 
-class FromDataset(AbstractGraphGenerator):
-    """ Get parameters from real dataset
-        Can be plugged in with other models
-        
-        Attributes:
-        -----------
-        dataset: str
-            path to the input graph, stored as a text files with the following format
-                u1 v1 val1
-                u2 v2 val2
-                u3 v3 val3
-                .
-                .
-                .
-
-            where ui vi is an edge between nodes ui and vi , and val i is the weight of this edge
+class ConfigurationModel(AbstractGraphGenerator):
+    """ Implementation of configuration model
     """
     def __init__(self, **kwargs):
-        self.dataset = kwargs['dataset']
-        self.graph = []
+        self.seq = kwargs['seq']
+        self.anomaly_seq = kwargs['anomaly_seq']
+        self.anomaly_type = kwargs['anomaly_type']
+        raise NotImplementedError
 
-    def read_input(self):
-        with open(self.dataset, 'r') as fin: ## put other option to read gz
-            data = fin.readlines()
-            for line in data:
-                u_, v_, w_ = line.strip().split()
-                u, v, w = int(u), int(v), int(w)
-                if u <= v:
-                    self.graph.append((u, v, w))
-                else:
-                    self.graph.append((v, u, w))
+    def _clique(self):
+        raise NotImplementedError
 
+    def _configuration_run(self):
+        raise NotImplementedError
+
+    def run(self):
+        # generate anomaly first then feed into model
+        anomaly = getattr(self, kwargs['anomaly_type'])
+        self.anomaly(self.graph)
+        
+        self._configuration_run()
+        raise NotImplementedError
 
 class EdgeSwitchingMarkovChain(AbstractGraphGenerator):
     """ Wrapper of Networkit EdgeSwitchingMarkovChainGenerator 
@@ -164,7 +149,8 @@ class GNM(AbstractGraphGenerator):
     """
     def __init__(self, **kwargs):
         self.n = kwargs['n']
-        self.m = kwargs['m']
+        print(kwargs['m'])
+        self.m = kwargs['m'] +1
         #self.seed = seed if not None else None
 
     def write_graph(self, out_path, weights):
@@ -172,6 +158,8 @@ class GNM(AbstractGraphGenerator):
         # sort nodes
         #sum_weight = 0
         if weights is not None:
+            print(len(self.graph.edges()))
+            print(len(weights))
             iterator = zip(self.graph.edges(), weights)
         else:
             iterator = self.graph.iterEdges()

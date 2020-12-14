@@ -15,68 +15,15 @@ output format
 timeserie:
 0 1
 1573 1
-5768 1
-9481 1
-10406 1
-11436 1
-12776 1
-13223 1
-14902 1
-17016 1
+5768 3
 
 graph:
 <0-1>,<1-1> 3
 <0-1>,<1-2> 2
-<0-1>,<2-1> 1
-<0-1>,<2-2> 4
-<0-2>,<0-1> 1
-<0-2>,<1-1> 9
-<0-2>,<1-2> 14
-<0-2>,<2-1> 9
-<0-2>,<2-2> 5
 <0-2>,<2-3> 3
 
 """
-def parser():
-    """Initialize options for 'speech-features config'"""
-    parser = argparse.ArgumentParser(description='Process some integers.')
 
-    parser.add_argument(
-        '-i', '--input', metavar='config-file', default=None,
-        help='The YAML configuration file to read. '
-        'If not specified, write to stdout')
-
-
-    args = parser.parse_args()    
-
-def read_config(conf_file):
-    """ Read yaml configuration file """
-    assert os.path.isfile(conf_file), "input file doesn't exist"
-    config = yaml.load(open(conf_file, 'r'), Loader=yaml.FullLoader)
-    return config
-    #try:
-    #    check_config(config)
-    #    return config
-    #except Exception as err:
-    #    print("Please fix the following error in configuration file:")
-    #    print(err)
-    #    raise IOError
-
-#def check_config(config):
-#    """ Check consistency of configuration file """
-#    # graph check
-#    assert config["Graph"]["params"]["m"] == sum(config["Graph"]["params"]["seq"] ), "Graph : number of edges should be sum of degree sequence"
-#    assert config["Graph"]["params"]["m"] > 0
-#    assert config["Graph"]["params"]["n"] > 0
-#
-#    # timeseries check
-#    assert config["TimeSerie"]["params"]["duration"] > 0, "TimeSerie: can't generate time serie with duration <0"
-#    assert config["TimeSerie"]["params"]["bound_up"] >  config["TimeSerie"]["params"]["bound_down"]
-#    
-#    # graph TS check 
-#    ## TODO weights ?!
-#    # assert config["TimeSerie"]["params"]["cumulative_sum"] == sum(config["Graph"]["params"]["weights"]
-#
 def main():
     parser = argparse.ArgumentParser(description='Graph and Time serie generator')
     parser.add_argument(

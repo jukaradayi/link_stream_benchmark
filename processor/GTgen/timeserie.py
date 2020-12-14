@@ -24,10 +24,27 @@ class AbstractTSGenerator():
     def write_TS(self, out_path):
 
         with open(out_path,'w') as fout:
-            for time, val in enumerate(self.time_serie):
+            for time, val in enumerate(self.timeserie):
                 # don't write if value is 0
                 if val > 0:
                     fout.write(f'{time} {val}\n')
+
+    def _outlier(self):
+        # if none specified, pick random index
+        anom_ind = np.random.randint(0, len(self.timeserie)-1)
+
+        # if none specified,
+        # outlier is set as 2 * var
+        var = np.var(self.timeserie)
+        avg = np.mean(self.timeserie)
+        self.timeserie[anom_ind] = 2*var + mean
+        
+    def _seasonal_shift(self):
+        raise NotImplementedError
+
+    def add_anomaly(self):
+        anomaly = getattr(self, "_" + self.anomaly_type)
+        anomaly(self)
 
     def run(self):
         raise NotImplementedError
@@ -50,15 +67,15 @@ class TSFromDataset(AbstractTSGenerator):
             where ti is the ith timestamps, and vali is the time series value at time ti.
     """
     def __init__(self, **kwargs):
-        self.dataset = kwargs['dataset']
-        self.distribution = []
+        self.distribution = kwargs['dataset']
+        #self.distribution = []
 
-    def _read_dataset(self):
-        with open(self.dataset, 'r') as fin: ## put other option to read gz
-            data = fin.readlines()
-            for line in data:
-                val, weight = line.strip().split()
-                self.distribution.append((int(val), int(weight)))
+    #def _read_dataset(self):
+    #    with open(self.dataset, 'r') as fin: ## put other option to read gz
+    #        data = fin.readlines()
+    #        for line in data:
+    #            val, weight = line.strip().split()
+    #            self.distribution.append((int(val), int(weight)))
 
     def _generate_from_distribution(self):
         """ given a timeserie's distribution, generate a time serie"""
@@ -79,7 +96,7 @@ class TSFromDataset(AbstractTSGenerator):
 
 
     def run(self):
-        self._read_dataset()
+        #self._read_dataset()
         self._generate_from_distribution()
 
     #@parameter
@@ -125,41 +142,4 @@ class IidNoise(AbstractTSGenerator):
         #        + self.bound_down)
         self.time_serie = np.random.randint(low = self.bound_down, high = self.bound_up,
                                             size = self.duration)
-        
 
-class RandomWalk(AbstractTSGenerator):
-    """ Generate Random Walk
-
-        Attributes:
-        ----------
-        duration: int
-    """
-    def __init__(self, **kwargs, ):
-        # Probability to move up or down 
-        self.prob = kwargs['prob']
-        self.duration = kwargs['duration']
-
-    #def write_TS(self):
-    #    print(self.time_serie)
-
-    def run(self):
-          
-        # statically defining the starting position 
-        #start = 0 
-        self.time_serie = [0] 
-          
-        # creating the random points 
-        random_pick = np.random.random(self.duration) 
-        down_pos = random_pick < self.prob[0] 
-        up_pos = random_pick > self.prob[1] 
-          
-        for idown_pos, iup_pos in zip(down_pos, up_pos): 
-            down = idown_pos # and positions[-1] > 1
-            up = iup_pos # and positions[-1] < 4
-            self.time_serie.append(self.time_serie[-1] - down + up) 
-
-#def main(value_sequence, model_type ):
-    
-
-if __name__ == "__main__":
-    main()
