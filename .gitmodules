@@ -1,0 +1,3 @@
+[submodule "preprocessor/nyc_taxi_stream"]
+	path = preprocessor/nyc_taxi_stream
+	url = https://github.com/jukaradayi/nyc_taxi_stream.git
