@@ -1,3 +1,6 @@
 [submodule "preprocessor/nyc_taxi_stream"]
 	path = preprocessor/nyc_taxi_stream
 	url = https://github.com/jukaradayi/nyc_taxi_stream.git
+[submodule "postprocessor/genbip"]
+	path = postprocessor/genbip
+	url = https://github.com/jukaradayi/genbip.git
