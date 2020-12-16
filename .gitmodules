@@ -4,3 +4,6 @@
 [submodule "postprocessor/genbip"]
 	path = postprocessor/genbip
 	url = https://github.com/jukaradayi/genbip.git
+[submodule "processor/GTgen"]
+	path = processor/GTgen
+	url = https://github.com/jukaradayi/GTgen.git
