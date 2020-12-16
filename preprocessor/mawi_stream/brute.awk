@@ -1,4 +1,4 @@
-BEGIN{window=1000000}{
+BEGIN{window=1.0}{
 if (NR == 1) 
     {
      first_t=$1; 
@@ -36,6 +36,9 @@ else
     flag_up = 0;
     flag_down = 0;
     window_index = 0
+    current_window[window_index++]=$1" "$2" "$3;
+    if ($4 == 0) flag_up = 1;
+    if ($4 == 1) flag_down =1;
     }
 }
 END{

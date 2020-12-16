@@ -60,7 +60,7 @@ if [ "$check_reciprocity" = true ]; then
         # pipe output of sort to awk to avoid writing to disk...
         mv $out_folder/${cur_base_pcap}.txt.gz $out_folder/${cur_base_pcap}_tmp.txt.gz
         ## TODO : merge into 1 big file or keep as separated files ?
-        unpigz -c $out_folder/${cur_base_pcap}_tmp.txt.gz | awk '{if ($3 < $2) {print $1" "$3" "$2" "1} else {print $0" "0}}' | sort -k2,3 -t " " -k1,1n -S$memory --parallel=$cpu -T/dev/shm| awk -f $CUR_DIR/brute.awk | gzip -c >> $out_folder/mawi_stream.txt.gz
+        unpigz -c $out_folder/${cur_base_pcap}_tmp.txt.gz | awk '{if ($3 < $2) {print $1" "$3" "$2" "1} else {print $0" "0}}' | sort -k2,3 -t " " -k1,1n -S$memory --parallel=$cpu -T/home/jkaradayi| awk -f $CUR_DIR/brute.awk | gzip -c >> $out_folder/mawi_stream.txt.gz
         rm $out_folder/${cur_base_pcap}_tmp.txt.gz  # TODO juste pour comparer avec / sans reciprocité
     done
 fi

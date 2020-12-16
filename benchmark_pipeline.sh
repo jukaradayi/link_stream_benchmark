@@ -1,86 +1,137 @@
 #!/bin/bash
 #
-# complete pipeline
+# Benchmark data preparation pipeline.
+# Read configuration file in conf/ and prepare the dataset
+# for use in the benchmark. 
+# Available preparators in preprocessor:
+#  - mawi
+#  - nyc_taxi_stream
+# Can be used with other stream in 
+#       t u v
+# format.
+# In processor you can also find GTgen, that generates
+# randomly picked graphs and timeseries according to parameters
 
 # prepare environment
 set -e
 export LC_ALL=C
 
-# load functions
-source ./functions.sh
+# load data preparation functions # TODO use finer grain ?
+source ./processor/utils.sh
 
-# define directories
+# Load configuration file, default to benchmark.conf
+if [ "$#" -lt 1 ]; then
+    CONF=conf/benchmark.conf
+else
+    CONF=$1
+fi
+
+# set directories
 ## get current script path - works with bash
 CUR_DIR=$( cd $( dirname ${BASH_SOURCE[0]} ) >/dev/null 2>&1 && pwd )
-GENBIP=$CUR_DIR/utils/genbip/genbip
-TAXI_PREPROC=$CUR_DIR/utils/nyc_taxi_stream/nyc_taxi_stream
-MAWI_PREPROC=$CUR_DIR/utils/mawi_stream
-MODEL_GEN=$CUR_DIR/utils/model_generation
-UTILS=$CUR_DIR/utils
-TMP=$(mktemp -d -t benchmark-XXXXXXXXXX) # temp directory to store partial files
-echo $TMP
+GENBIP=$CUR_DIR/postprocessor/genbip/genbip
+TAXI_PREPROC=$CUR_DIR/preprocessor/nyc_taxi_stream/nyc_taxi_stream
+MAWI_PREPROC=$CUR_DIR/preprocessor/mawi_stream
+MODEL_GEN=$CUR_DIR/processor/GTgen
+TMP=$(mktemp -d -p /home/jkaradayi/temp -t benchmark-XXXXXXXXXX) # temp directory to store partial files
+cp $CONF $TMP # copy conf file in temporary folder 
+echo "Working in temporary folder $TMP"
+
+
+
+# Parameters 
+#source benchmark.conf
+source $CONF
+if [[ ! -d $output ]]; then
+    echo "Setting up $output"
+    mkdir $output
+fi
 
 # cleanup function to call when exiting the main script
 function cleanup {
+    echo "Removing temporary folder $TMP"
     rm -rf $TMP
 }
 
-#trap cleanup EXIT
+if [ "$keep_temp" = false ]; then
+    trap cleanup EXIT
+fi
 
-# Parameters 
-source benchmark.conf
+
+# setup log - use tmp folder name as log name (unique ...)
+log=$output/$(basename $TMP).log
+touch $log
+echo "log file store in $log"
+## From now on, standard and error output is redirected to log 
+exec 1>$log 2>&1
+
+#cp benchmark.conf $output
+#cp $CONF $output
 
 # Pre process Data 
 ## MAWI
 if [ "$mawi_process" = true ]; then
+    echo "[$(date)] building mawi stream"
     mkdir $TMP/mawi
-    bash $MAWI_PREPROC/build_stream.sh $mawi_data_dir/201306021400.dump $TMP $mawi_check_reciprocity $mawi_keep_ports
-    gzip $TMP/mawi_stream.txt
+    bash $MAWI_PREPROC/build_stream_allpcaps.sh $mawi_data_dir $TMP/mawi $mawi_check_reciprocity $mawi_keep_ports $memory $cpu 
+    #gzip $TMP/mawi/mawi_stream.txt
+    #exit
    
-    prepare_data $TMP/mawi_stream.txt $mawi_grain 30G 2 # > mawi_prepare.out 2> mawi_prepare.err &
-    gzip $TMP/mawi_stream.txt.weight
-    gzip $TMP/mawi_stream.txt.ts
+    prepare_data $TMP/mawi/mawi_stream.txt $mawi_grain $memory $cpu # 30G 2 # > mawi_prepare.out 2> mawi_prepare.err &
+    #gzip $TMP/mawi/mawi_stream.txt.weight
+    #gzip $TMP/mawi/mawi_stream.txt.ts
+    #exit
 fi
 
 ## TAXI 
 if [ "$taxi_process" = true ]; then
     mkdir $TMP/taxi
-    echo "building taxi stream"
-    python3 $TAXI_PREPROC/build_stream.py --input_file=$taxi_dataDir/nyc_taxi_data.csv --output_file=$TMP/taxi_stream.txt --n=$taxi_gridHeight --simplify 
-    gzip $TMP/taxi_stream.txt
+    echo "[$(date)] building taxi stream"
+    python3 $TAXI_PREPROC/build_stream.py --input_file=$taxi_data_dir --output_file=$TMP/taxi/taxi_stream.txt --n=$taxi_gridHeight --simplify 
+    gzip $TMP/taxi/taxi_stream.txt
     
-    echo "preparing taxi data"
-    prepare_data $TMP/taxi_stream.txt $taxi_grain 30g 2 
-    echo "prepared"
-    gzip $TMP/taxi_stream.txt.ts
-    gzip $TMP/taxi_stream.txt.weight
+    echo "[$(date)] preparing taxi data"
+    prepare_data $TMP/taxi/taxi_stream.txt $taxi_grain $memory $cpu # 30g 2 
+    #gzip $TMP/taxi/taxi_stream.txt.ts
+    #gzip $TMP/taxi/taxi_stream.txt.weight
 fi
 
 ## PERU
 if [ "$peru_process" = true ]; then
     mkdir $TMP/peru
-
-    prepare_data $peru_dataDir/peru $peru_grain 80g 20 > out 2> err &
+    echo "[$(date)] preparing peru data" 
+    prepare_data $peru_data_dir/peru $peru_grain $memory $cpu #> out# 2>err &
+    #80g 20 > out 2> err &
 fi
 
 ## BITCOIN
 if [ "$bitcoin_process" = true ]; then
     mkdir $TMP/bitcoin
-
-    prepare_data $bitcoin_dataDir/bitcoin_full $peru_grain 200g 24 >out 2> err &
+    echo "[$(date)] preparing bitcoin data" 
+    prepare_data $bitcoin_data_dir/bitcoin_full $peru_grain $memory $cpu #> out 2>err &
+    #200g 24 >out 2> err &
 fi
 
-# Run Models
+## GENERIC TUV
+if [ "$tuv_process" = true ]; then
+    mkdir $TMP/tuv
+    echo "[$(date)] preparing custom (t,u,v) stream" 
+    prepare_data $bitcoin_data_dir/bitcoin_full $peru_grain $memory $cpu #> out 2>err &
+    #200g 24 >out 2> err &
+fi
+   
+
+## Run Models
 if [ "$model_process" = true ]; then
     mkdir $TMP/models
-    python $MODEL_GEN/generate.py -y $MODEL_GEN/modelGeneration.yaml -o $TMP
-    gzip $TMP/model.ts
-    gzip $TMP/model.weight
+    echo "[$(date)] generating randomly picked graphs and timeserie" 
+    python $MODEL_GEN/generate.py -y $MODEL_GEN/modelGeneration.yaml -o $TMP/models
+    gzip $TMP/models/model.ts
+    gzip $TMP/models/model.weight
 fi
 
 # from time serie and graph, generate link stream using genbip
-#python $GENBIP/cli.py  --top $TMP/taxi_stream.txt.weight.gz --bot $TMP/taxi_stream.txt.ts.gz --gen havelhakimi --out $TMP/taxi_bip
-python $GENBIP/cli.py  --top $TMP/mawi_stream.txt.weight.gz --bot $TMP/mawi_stream.txt.ts.gz --gen havelhakimi --out $TMP/mawi_bip
-
-python $GENBIP/cli.py  --top $TMP/model.weight.gz --bot $TMP/model.ts.gz --gen havelhakimi --out $TMP/model_bip
+#python $GENBIP/cli.py  --top $TMP/taxi/taxi_stream.txt.weight.gz --bot $TMP/taxi/taxi_stream.txt.ts.gz --gen havelhakimi --out $TMP/taxi_bip
+#python $GENBIP/cli.py  --top $TMP/mawi_stream.txt.weight.gz --bot $TMP/mawi_stream.txt.ts.gz --gen havelhakimi --out $output/mawi.bip
+#python $GENBIP/cli.py  --top $TMP/models/model.weight.gz --bot $TMP/models/model.ts.gz --gen havelhakimi --out $output/model.bip
 
