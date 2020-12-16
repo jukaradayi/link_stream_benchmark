@@ -13,7 +13,14 @@
 # randomly picked graphs and timeseries according to parameters
 
 # prepare environment
+## exit when command fails
 set -e
+# keep track of the last executed command
+trap '[$(date)] last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+# echo an error message before exiting
+trap '[$(date)] echo "\"${last_command}\" command filed with exit code $?."' EXIT
+
+# set language to C
 export LC_ALL=C
 
 # load data preparation functions # TODO use finer grain ?
