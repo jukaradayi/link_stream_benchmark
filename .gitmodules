@@ -1,8 +1,8 @@
 [submodule "preprocessor/nyc_taxi_stream"]
-	path = preprocessor/nyc_taxi_stream
+	path = preparator/nyc_taxi_stream
 	url = https://github.com/jukaradayi/nyc_taxi_stream.git
 [submodule "postprocessor/genbip"]
-	path = postprocessor/genbip
+	path = link-stream-generator/genbip
 	url = https://github.com/jukaradayi/genbip.git
 [submodule "processor/GTgen"]
 	path = processor/GTgen
