@@ -1,0 +1,8 @@
+Mawi Stream
+===========
+
+To download the Mawi Dataset, use the download.sh script
+
+The other scripts in this folder process the raw pcap files to get only 
+tcp and udp transfers, and only keep a transfer if the reciproc transfer
+has been found within 1 second.
