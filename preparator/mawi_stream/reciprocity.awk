@@ -3,7 +3,7 @@ if (NR == 1)
     {
      first_t=$1; 
      prev_src=$2; 
-     prev_dst=$2
+     prev_dst=$3
      flag_up=0;
      flag_down=0
     };
