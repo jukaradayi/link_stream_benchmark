@@ -35,8 +35,8 @@ Timeserie
 * The timeserie `a` is extracted by "getting rid" of the structure,
   to keep only the number of interactions at each time.
   We define `T` the set of all timestamps in the data, then for each
-  :math:`t \in T, a(t)=\sum_{\forall u,v \in V \times V} \mathds{1}_{t}(u,v)`
-  where `\mathds{1}_{t}(u,v)` is `1` if the edge `(u,v)` occurs at time `t`, `0` otherwise.
+  :math:`t \in T, a(t) = \sum_{ \forall u,v \in V \times V} \mathbf{1}_{t}(u,v)`
+  where :math:`\mathbf{1}_{t}(u,v)` is `1` if the edge `(u,v)` occurs at time `t`, :math:`0` otherwise.
 
 * In practice, we pipe the wollowing commands in bash:
 
@@ -51,10 +51,9 @@ Timeserie
    mawk '{print $2,$1;}' # format mawk output
 
 .. note::
-   The timeserie `a` is represented on a set of timestamps `T` that does not
-   necessarily have a constant time step, and is never 0. To get the
-   timeserie with a constant time step, we can construct a set `T'`
-   with a constant timestamp, with :math:`T \subset T'` and 
-   :math:`a(t)=0 \forall t \in T'\\T`
+   The timeserie :math:`a` is represented on a set of timestamps :math:`T` that does not
+   necessarily have a constant time step, and is never :math:`0`. To get the
+   timeserie with a constant time step, we can construct a set :math:`T'`
+   with a constant timestamp, with :math:`T \subset T'` and :math:`a(t)=0 \forall t \in T'\backslash T`
 
 
