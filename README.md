@@ -2,6 +2,9 @@ BENCHMARK PIPELINE
 ==================
 
 WIP 
+# DOCS : 
+une docs pour tout décrire dans benchmark => docs juste pour python API dans GTgen et genbip et taxi
+
 ## TODO : 
     - Test pipeline on complete taxi (for time) - already tested complete pipeline on subpart of taxi w/grid 5 WIP
     - test pipeline on mawi WIP

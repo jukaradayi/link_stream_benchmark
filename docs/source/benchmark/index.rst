@@ -12,4 +12,4 @@ Benchmark
 
    normality_and_anomalies
    datasets
-   pipelines
+   pipeline

@@ -51,9 +51,10 @@ Timeserie
    mawk '{print $2,$1;}' # format mawk output
 
 .. note::
-   The timeserie :math:`a` is represented on a set of timestamps :math:`T` that does not
-   necessarily have a constant time step, and is never :math:`0`. To get the
-   timeserie with a constant time step, we can construct a set :math:`T'`
-   with a constant timestamp, with :math:`T \subset T'` and :math:`a(t)=0 \forall t \in T'\backslash T`
+   The timeserie :math:`a` used in computation is defined on the set of 
+   timestamps :math:`T` called the event times, i.e. the times where interaction occurs. On this
+   set, the timeserie :math:`a` is thus never :math:`0`.
+   We can define the set :math:`T'` with a constant timestamp, with :math:`T \subset T'` and 
+   :math:`a(t)=0 \forall t \in T' \backslash  T`
 
 
