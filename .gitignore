@@ -3,3 +3,6 @@ utils/genbip/*
 utils/mawi_stream/*
 utils/nyc_taxi_stream/*
 prepare_data.sh
+docs/build/*
+docs/build
+
