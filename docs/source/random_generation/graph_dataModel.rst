@@ -1,7 +1,7 @@
 .. _grap_dataModel:
 
-Data Model
-==========
+Graph Data Model
+================
 
 * One pipeline used to generate graph uses weights sequences and degree sequences
   measured from real-life datasets (presented in the benchmark/datasets section).
@@ -19,32 +19,32 @@ Generation
 
     - Read the degree sequence :math:`S_d` and weight sequence :math:`S_w`
 
-    - Generate the anomaly :math:`G_an` using an Erdos Renyi model with the input parameters
+    - Generate the anomaly :math:`G_{an}` using an Erdos Renyi model with the input parameters
      
-    - Place anomaly on normal graph: Initialize the list `selected_nodes`, then for each node :math:`n_an` in :math:`G_an`:
+    - Place anomaly on normal graph: Initialize the list `selected\_nodes`, then for each node :math:`n_{an}` in :math:`G_{an}`:
     
-        - uniformly pick in :math:`S_d` a node :math:`n_norm` whose degree :math:`d_norm` is equal or higher than the degree :math:`d_an` of :math:`n_an`
+        - uniformly pick in :math:`S_d` a node :math:`n_{norm}` whose degree :math:`d_{norm}` is equal or higher than the degree :math:`d_{an}` of :math:`n_{an}`
 
-        - if :math:`n_norm` is not in `selected_nodes`, add it to the list, else, empty `selected_nodes` and start loop from scratch
+        - if :math:`n_{norm}` is not in `selected\_nodes`, add it to the list, else, empty `selected\_nodes` and start loop from scratch
 
-        - substract `d_an` from `d_norm`
+        - substract `d_{an}` from `d_{norm}`
 
     - We then note :math:`S'_d` the updated degree sequence, that will now be the degree sequence of the "normal" graph.
 
-    - Generate the graph :math:`G_norm`:
+    - Generate the graph :math:`G_{norm}`:
 
         - First generate a graph using a Havel-Hakimi model to fit the degree sequence :math:`S'_d`
 
-        - Then perform :math:`10 \times N_edges` random edge swaps (where :math:`N_edges` is the number of edges of the graph) to ensure that the
+        - Then perform :math:`10 \times N_{edges}` random edge swaps (where :math:`N_{edges}` is the number of edges of the graph) to ensure that the
           graph is randomly uniformly picked
 
-    - Generate :math:`G` as the union of :math:`G_n` and :math:`G_an`
+    - Generate :math:`G` as the union of :math:`G_n` and :math:`G_{an}`
 
     - If :math:`G` is a simple graph, then return :math:`G`, else:
 
         - For each multiple edge :math:`e_1` in :math:`G`, do:
 
-            - Choose between graphs :math:`G_an` and :math:`G_norm` with a probability :math:`0.5`
+            - Choose between graphs :math:`G_{an}` and :math:`G_{norm}` with a probability :math:`0.5`
 
             - In chosen graph, pick an edge :math:`e_2` uniformly at random
 

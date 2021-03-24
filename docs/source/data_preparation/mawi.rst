@@ -1,13 +1,35 @@
-.. _mawi:
+.. _MAWI:
 
 Mawi
 ====
 
-* The `Mawi dataset <http://mawi.wide.ad.jp/mawi/>`_ is made of 24 hours long
+* The `MAWI dataset <http://MAWI.wide.ad.jp/MAWI/>`_ is made of 24 hours long
   IP traffic traces.
 
 * Only the UDP and TCP transfer are kept, and the transfers are considered
   undirected. 
+
+Plots
+-----
+
+.. figure:: ../_static/mawi_stream.txt.degree.png
+   :scale: 50 %
+   :align: left
+
+   The degree distribution of the MAWI dataset
+
+.. figure:: ../_static/mawi_stream.txt.weight.png
+   :scale: 50 %
+   :align: right
+
+   The weight distribution of the MAWI dataset
+
+.. figure:: ../_static/mawi_stream.txt.ts.png
+   :scale: 50 %
+   :align: center
+
+   The timeserie of the MAWI dataset
+
 
 Data preparation
 ----------------

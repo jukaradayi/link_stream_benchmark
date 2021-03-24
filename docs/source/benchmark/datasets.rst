@@ -23,8 +23,6 @@ Data-Model Datasets
 
 * Using some properties extracted from the previous datasets (degree sequences, weight sequences, timeseries), we generate random "normal" and "anomaly" graphs, and random "normal" and "anomaly" timeseries.
 
-* TODO more reason why
-
 * To generate the graphs, we use a Havel-Hakimi generator, followed by random edge swap, to generate the random graph using the degree sequences, and distribute the weights at random over the edges.
 
 * To generate the timeseries, we keep the timestamps and shuffle the values over the timestamps.

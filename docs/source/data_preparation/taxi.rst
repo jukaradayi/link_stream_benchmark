@@ -4,7 +4,27 @@ Taxi
 ====
 
 * The dataset consists of `165,114,362 trip records` over the year 2014. A record includes various fields capturing trip characteristics such as pick-up and drop-off GPS locations and dates, trip durations and distances, fares, payment methods, or driver-reported passenger counts. 
-  
+
+Plots
+-----
+
+.. figure:: ../_static/taxi_stream.txt.degree.png
+   :scale: 50 %
+   :align: left
+
+   The degree distribution of the taxi dataset
+
+.. figure:: ../_static/taxi_stream.txt.weight.png
+   :scale: 50 %
+   :align: right
+
+   The weight distribution of the taxi dataset
+
+.. figure:: ../_static/taxi_stream.txt.ts.png
+   :scale: 50 %
+   :align: center
+
+   The timeserie of the taxi dataset
 
 Data Preparation
 ----------------
