@@ -6,6 +6,8 @@ Mawi
 * The `MAWI dataset <http://MAWI.wide.ad.jp/MAWI/>`_ is made of 24 hours long
   IP traffic traces.
 
+* For the purpose of the benchmark, we used the daylong trace from `04/09/2019 <http://mawi.wide.ad.jp/mawi/ditl/ditl2019-G/>`_. A `download script <https://github.com/jukaradayi/link_stream_benchmark/blob/master/preparator/mawi_stream/download.sh>`_ is available in the benchmark repository to download daylong traces from 05/09/2018, 04/09/2019 or 04/08/2020(incomplete day), but other daylong traces can be used with the following preparation.
+
 * Only the UDP and TCP transfer are kept, and the transfers are considered
   undirected. 
 
