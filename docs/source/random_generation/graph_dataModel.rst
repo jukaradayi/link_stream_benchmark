@@ -23,11 +23,11 @@ Generation
      
     - Place anomaly on normal graph: Initialize the list `selected\_nodes`, then for each node :math:`n_{an}` in :math:`G_{an}`:
     
-        - uniformly pick in :math:`S_d` a node :math:`n_{norm}` whose degree :math:`d_{norm}` is equal or higher than the degree :math:`d_{an}` of :math:`n_{an}`
+        - step 1: uniformly pick in :math:`S_d` a node :math:`n_{norm}` with degree :math:`d_{norm} \geq d_{an}`, where :math:`d_{an}` is the degree of :math:`n_{an}`
 
-        - if :math:`n_{norm}` is not in `selected\_nodes`, add it to the list, else, empty `selected\_nodes` and start loop from scratch
+        - step 2: if :math:`n_{norm}` is not in `selected\_nodes`, add it to the list, else, empty `selected\_nodes` and start over at step 1.
 
-        - substract `d_{an}` from `d_{norm}`
+        - step 3 : get the degree of the normal graph :math:`d_{norm} = d_{norm} - d_{an}`.
 
     - We then note :math:`S'_d` the updated degree sequence, that will now be the degree sequence of the "normal" graph.
 
@@ -57,3 +57,9 @@ Generation
             - If so, perform edge swap, else go to the beginning of the process for :math:`e_1` again.
 
     - return :math:`G`
+
+Weights
+-------
+
+When :math:`G` is generated, assign weights to the nodes by shuffling the weight sequence :math:`S_w`, 
+then taking the first :math:`N_an` values for :math:`G_{an}` edges, and the rest of the values for :math:`G_{norm}` edges weights.
