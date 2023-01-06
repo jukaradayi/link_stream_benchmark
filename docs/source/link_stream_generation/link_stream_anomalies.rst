@@ -26,7 +26,7 @@ Getting rid of multiple edges
             
             - :math:`e_1 \neq e_2`
 
-            - swapping :math:`e_1` and :math:`e_2` redces the number of multiple edges by at least 1
+            - swapping :math:`e_1` and :math:`e_2` reduces the number of multiple edges by at least 1
       
       - If swap is accepted, swap :math:`e_1` and :math:`e_2`, otherwise reject swap and pick another edge :math:`e_2`
 
