@@ -20,11 +20,7 @@ Anomalies
 ---------
 
 * An anomaly is defined as a sub-graph in the 'normal graph' that has 
-  properties that are overall different than the rest of the graph 
-  (density...). We then define two types of anomalies:
-      - Graph anomalies : anomalies that occur in the graph, but are not 
-        spread over the whole timeline of the link-stream
-      - Stream anomalies: anomalies that occur in the graph, and are 
-        occuring at a specific time in the link-stream
+  properties (such as its density) that are overall *very different* than 
+  the rest of the graph.
 
 * TODO ajouter plot avec graph d'une couleur , anomalie d'une autre
