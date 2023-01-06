@@ -11,6 +11,7 @@
 # format.
 # In processor you can also find GTgen, that generates
 # randomly picked graphs and timeseries according to parameters
+# TODO : séparer raw datasets & data-generated models
 
 # prepare environment
 ## exit when command fails
@@ -23,7 +24,7 @@ trap 'echo "[$(date)]"; echo "\"${last_command}\" command filed with exit code $
 # set language to C
 export LC_ALL=C
 
-# load data preparation functions # TODO use finer grain ?
+# load data preparation functions
 source ./processor/utils.sh
 
 # Load configuration file, default to benchmark.conf
@@ -115,7 +116,7 @@ fi
 if [ "$bitcoin_process" = true ]; then
     mkdir $TMP/bitcoin
     echo "[$(date)] preparing bitcoin data" 
-    prepare_data $bitcoin_data_dir/bitcoin_full $peru_grain $memory $cpu #> out 2>err &
+    prepare_data $bitcoin_data_dir/bitcoin_full $bitcoin_grain $memory $cpu #> out 2>err &
     #200g 24 >out 2> err &
 fi
 

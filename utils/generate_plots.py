@@ -21,7 +21,7 @@ def plot_distribution(df, xlab, ylab, title, basename, log):
 
 def main():
     parser = argparse.ArgumentParser(
-            description='Graph and Time serie generator')
+            description='Graph and Time serie plot')
     parser.add_argument(
         'folder', 
         help='The folder containing the distributions')
@@ -39,6 +39,11 @@ def main():
     print('plotting timeserie')
     df = read_distribution(os.path.join(args.folder, args.basename + '.ts'))
     plot_distribution(df, 'timestamps', 'number of interactions', 'timeserie', args.basename + '.ts', False)
+
+    # Read Timeserie
+    print('plotting timeserie distribution')
+    df = read_distribution(os.path.join(args.folder, args.basename + '.ts.d'))
+    plot_distribution(df, 'timeserie value', 'number of occurence', 'timeserie distribution', args.basename + '.ts.d', True)
 
     # Read Degree sequence and generate degree distribution
     print('plotting degree')

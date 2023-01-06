@@ -32,8 +32,8 @@ wget -a wget_log_mawi.log http://mawi.wide.ad.jp/mawi/ditl/ditl${year}-G/ | exit
 cat index.html | grep href | cut -d '=' -f 2 | cut -d '.' -f 1 > mawi_time_idx.txt
 
 # remove timestamps file and index.html on exit
-trap 'rm mawi_time_idx.txt; rm index.html' EXIT
-
+#trap 'rm mawi_time_idx.txt; rm index.html' EXIT
+#
 # download each 15 minutes pcap file
 while IFS= read -r line; do 
     year=${line:0:4}
