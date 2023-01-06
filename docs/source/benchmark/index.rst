@@ -10,6 +10,6 @@ Benchmark
    :maxdepth: 2
    :caption: Contents:
 
+   pipeline
    normality_and_anomalies
    datasets
-   pipeline
