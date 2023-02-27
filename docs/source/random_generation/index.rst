@@ -5,8 +5,6 @@ Random Graph and Timeserie Generation
 
 * There are two pipelines to generate random graphs and random timeseries implemented. 
 
-* TODO TROUVER NOM POUR DIFFERENCIER REAL DATA ET RANDOM COMPLET
-
 * The first one takes input from real data (weights and node degree sequence),
   and generates an uniformly randomly picked graph with anomalies that keeps
   the weights and node degree sequence from the input.

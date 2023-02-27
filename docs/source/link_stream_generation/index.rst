@@ -4,7 +4,7 @@ Link Stream Generation
 ======================
 
 
-* To generate a link-stream, the `genbip <https://www.complexnetworks.fr/genbip_doc/>`_ package is used.
+* To generate a link-stream, the genbip package is used. See *genbip/doc/build* for its documentation.
   By considering the weighted edges as the top nodes and the timeseries values as the bottom nodes
   we generate a bipartite graph.
 
