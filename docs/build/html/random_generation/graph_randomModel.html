@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graph Random Model &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Normality And Anomalies" href="timeserie_normalityAndAnomalies.html" />
+    <link rel="prev" title="Graph Data Model" href="graph_dataModel.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_preparation/index.html">Data Preparation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Random Graph and Timeserie Generation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="graph_normalityAndAnomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_dataModel.html">Graph Data Model</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Graph Random Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#generation">Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_normalityAndAnomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_dataModel.html">Timeserie Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_randomModel.html">Random Model Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Random Graph and Timeserie Generation</a></li>
+      <li class="breadcrumb-item active">Graph Random Model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/random_generation/graph_randomModel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="graph-random-model">
+<span id="graph-randommodel"></span><h1>Graph Random Model<a class="headerlink" href="#graph-random-model" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>The other implemented pipeline used to generate random graphs with anomalies only
+requires a number of node and number of egdes as input. The generated weighted
+graphs are created using Erdos Renyi models, with anomalies generated with
+Erdos Renyi.</p></li>
+</ul>
+<section id="generation">
+<h2>Generation<a class="headerlink" href="#generation" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>The process is as follows:</p>
+<ul>
+<li><p>Read input parameters:</p></li>
+<li><p>Generate independently the normal graph <img class="math" src="../_images/math/1435fdf0c64442c560cd6c390631fb11353b2544.png" alt="G_{norm}"/> and the anomaly graph <img class="math" src="../_images/math/1bda3101c6f5bbb7f581165fe0173a5203d26597.png" alt="G_{an}"/> with Erdos-Renyi models with the specified parameters, and set all weights to <img class="math" src="../_images/math/ec830c85a5fbb48028fe797044da6bdfb924c2fa.png" alt="1"/></p></li>
+<li><p>For each node <img class="math" src="../_images/math/863c299f2d5f67887a6a844ee7fd2aa08ba50a6e.png" alt="n_{an}"/> of <img class="math" src="../_images/math/1bda3101c6f5bbb7f581165fe0173a5203d26597.png" alt="G_{an}"/>, uniformly pick in <img class="math" src="../_images/math/1435fdf0c64442c560cd6c390631fb11353b2544.png" alt="G_{norm}"/> a node <img class="math" src="../_images/math/58128ed2dbe683343145c3979bd1d4865478b26b.png" alt="n_{norm}"/> that has not already been selected</p></li>
+<li><p>Generate graph <img class="math" src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png" alt="G"/> as the union of <img class="math" src="../_images/math/1bda3101c6f5bbb7f581165fe0173a5203d26597.png" alt="G_{an}"/> and <img class="math" src="../_images/math/1435fdf0c64442c560cd6c390631fb11353b2544.png" alt="G_{norm}"/>; if an edge of <img class="math" src="../_images/math/1bda3101c6f5bbb7f581165fe0173a5203d26597.png" alt="G_{an}"/> is already in <img class="math" src="../_images/math/1435fdf0c64442c560cd6c390631fb11353b2544.png" alt="G_{norm}"/>, merge them and increase the weight by <img class="math" src="../_images/math/ec830c85a5fbb48028fe797044da6bdfb924c2fa.png" alt="1"/></p></li>
+<li><p>Randomly pick edges in <img class="math" src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png" alt="G"/> and increase their weight by <img class="math" src="../_images/math/ec830c85a5fbb48028fe797044da6bdfb924c2fa.png" alt="1"/> until the total sum of the weights specified as input is reached.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="graph_dataModel.html" class="btn btn-neutral float-left" title="Graph Data Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="timeserie_normalityAndAnomalies.html" class="btn btn-neutral float-right" title="Normality And Anomalies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

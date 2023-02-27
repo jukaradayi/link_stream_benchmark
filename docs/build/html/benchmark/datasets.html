@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Datasets &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Preparation" href="../data_preparation/index.html" />
+    <link rel="prev" title="Normality And Anomalies" href="normality_and_anomalies.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Benchmark</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normality_and_anomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#raw-datasets">Raw Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-model-datasets">Data-Model Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-model-datasets">Random-Model Datasets</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../data_preparation/index.html">Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random_generation/index.html">Random Graph and Timeserie Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Benchmark</a></li>
+      <li class="breadcrumb-item active">Datasets</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/benchmark/datasets.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="datasets">
+<span id="id1"></span><h1>Datasets<a class="headerlink" href="#datasets" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>For the benchmark, we make available three types of datasets. Each dataset is made of a linkstream <img class="math" src="../_images/math/00bef212b22344743b343e5411e79c9b2e3637b6.png" alt="S=(T,V,E)"/>, where <img class="math" src="../_images/math/e8dea8254118f111b5fb20895b03528c17566f06.png" alt="T"/> is a set of time instants, <img class="math" src="../_images/math/e4762cec46619bf7781cae62216214f909395368.png" alt="V"/> is a set of nodes, and <img class="math" src="../_images/math/8402620e7b842456758bdc3de6931fe803a72a83.png" alt="E \subseteq T \times V \otimes V"/> is a set of links, such that <img class="math" src="../_images/math/4b14c73b02e424a2d6239061593e41ebddab9448.png" alt="(t,u,v)"/> means that link between nodes <img class="math" src="../_images/math/008a22ac4b1d88364d192757c2c0534f9fd882a0.png" alt="(u,v)"/> happens at time <img class="math" src="../_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png" alt="t"/>.</p></li>
+</ul>
+<section id="raw-datasets">
+<h2>Raw Datasets<a class="headerlink" href="#raw-datasets" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Datasets that are publicly available, that we distribute with limited modifications. For most of them, we only update the format to homogenize them.</p>
+<ul>
+<li><p>Mawi: packet transfers via upd or tcp</p></li>
+<li><p>Taxi : taxi trips in new york, on a <img class="math" src="../_images/math/d2dd0ae6573fdd37c9460046e3e4632a359ed972.png" alt="3000 \times 3000"/> grid</p></li>
+<li><p>Peru : money transfer in peru during an extreme weather event</p></li>
+<li><p>Bitcoin : bitcoin money transfer</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="data-model-datasets">
+<h2>Data-Model Datasets<a class="headerlink" href="#data-model-datasets" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Using some properties extracted from the previous datasets (degree sequences, weight sequences, timeseries), we generate random “normal” and “anomaly” graphs, and random “normal” and “anomaly” timeseries.</p></li>
+<li><p>To generate the graphs, we use a Havel-Hakimi generator, followed by random edge swap, to generate the random graph using the degree sequences, and distribute the weights at random over the edges.</p></li>
+<li><p>To generate the timeseries, we keep the timestamps and shuffle the values over the timestamps.</p></li>
+</ul>
+</section>
+<section id="random-model-datasets">
+<h2>Random-Model Datasets<a class="headerlink" href="#random-model-datasets" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Finally, we distribute datasets generates from scratch using generation models.</p></li>
+<li><p>For graphs, we use an Erdos-Renyi model to generate the “normal” and “anomaly” graphs. We then distribute the weights uniformly such that the sum of the weights is the number of interactions set as input.</p></li>
+<li><p>For timeseries, we use randomly uniformly distribute the values such that the cumulative sum reaches the number of interactions set as input.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="normality_and_anomalies.html" class="btn btn-neutral float-left" title="Normality And Anomalies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../data_preparation/index.html" class="btn btn-neutral float-right" title="Data Preparation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Preparation &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mawi" href="mawi.html" />
+    <link rel="prev" title="Datasets" href="../benchmark/datasets.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Preparation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mawi.html">Mawi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="taxi.html">Taxi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bitcoin.html">Bitcoin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peru.html">Peru</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prepare_data.html">Prepare Data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../random_generation/index.html">Random Graph and Timeserie Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data Preparation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/data_preparation/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data-preparation">
+<span id="id1"></span><h1>Data Preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>Included in the benchmark are dataset preparators for four datasets.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In all the following, we define the link-stream as a list of
+“interactions”. The link-streams are stored as a text file
+where each line contains space-separated values:</p>
+<blockquote>
+<div><p>t u v</p>
+</div></blockquote>
+<p>where t is the timestamp of the interaction, as an integer, and u
+and v are the vertices of the interaction.
+The streams are undirected, and for commodity we write it with <cite>u &lt; v</cite>.
+For simplicity, we will also refer to this format as the “(t,u,v)” format,
+and depending on context (when there is no ambiguity), we will use
+(t,u,v) to talk about a specific interaction.
+Please look at <a class="reference external" href="http://www.complexnetworks.fr/wp-content/uploads/2017/11/1710.040731.pdf">this paper</a> for a more thorough definition of link-streams.</p>
+</div>
+<ul>
+<li><dl>
+<dt>The following Table summarize the main properties of each dataset</dt><dd><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>dataset</p></th>
+<th class="head"><p>grain</p></th>
+<th class="head"><p>n_interactions</p></th>
+<th class="head"><p>n_nodes</p></th>
+<th class="head"><p>n_timestamps</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>taxi_3000</p></td>
+<td><p>0.5</p></td>
+<td><p>153336646</p></td>
+<td><p>1211783</p></td>
+<td><p>40329057</p></td>
+</tr>
+<tr class="row-odd"><td><p>mawi_1_day</p></td>
+<td><p>0.001</p></td>
+<td><p>836538338</p></td>
+<td><p>440856</p></td>
+<td><p>84344397</p></td>
+</tr>
+<tr class="row-even"><td><p>peru</p></td>
+<td><p>1</p></td>
+<td><p>40509547</p></td>
+<td><p>1423185</p></td>
+<td><p>21698175</p></td>
+</tr>
+<tr class="row-odd"><td><p>bitcoin</p></td>
+<td><p>?</p></td>
+<td><p>1159615239</p></td>
+<td><p>374472767</p></td>
+<td><p>584309</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Several parameters were tested, e.g. size of the grid for taxi (taxi_1000 = grid of 1000 x 1000),
+size of grain for mawi (example of 2hour trace and 1 day trace)</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>dataset</p></th>
+<th class="head"><p>grain</p></th>
+<th class="head"><p>n_interactions</p></th>
+<th class="head"><p>n_nodes</p></th>
+<th class="head"><p>n_timestamps</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>taxi_1000</p></td>
+<td><p>0.5</p></td>
+<td><p>153269248</p></td>
+<td><p>320413</p></td>
+<td><p>40322380</p></td>
+</tr>
+<tr class="row-odd"><td><p>taxi_3000</p></td>
+<td><p>0.5</p></td>
+<td><p>153336646</p></td>
+<td><p>1211783</p></td>
+<td><p>40329057</p></td>
+</tr>
+<tr class="row-even"><td><p>taxi_10000</p></td>
+<td><p>0.5</p></td>
+<td><p>153373962</p></td>
+<td><p>5369545</p></td>
+<td><p>40332841</p></td>
+</tr>
+<tr class="row-odd"><td><p>mawi_2hours</p></td>
+<td><p>10</p></td>
+<td><p>1753926</p></td>
+<td><p>111913</p></td>
+<td><p>721</p></td>
+</tr>
+<tr class="row-even"><td><p>mawi_2hours</p></td>
+<td><p>0.001</p></td>
+<td><p>123644024</p></td>
+<td><p>111913</p></td>
+<td><p>7194492</p></td>
+</tr>
+<tr class="row-odd"><td><p>mawi_2hours</p></td>
+<td><p>0.00001</p></td>
+<td><p>500913815</p></td>
+<td><p>111913</p></td>
+<td><p>359923483</p></td>
+</tr>
+<tr class="row-even"><td><p>mawi_1_day</p></td>
+<td><p>0.001</p></td>
+<td><p>836538338</p></td>
+<td><p>440856</p></td>
+<td><p>84344397</p></td>
+</tr>
+<tr class="row-odd"><td><p>mawi_1_day</p></td>
+<td><p>0.0001</p></td>
+<td><p>1724898806</p></td>
+<td><p>440856</p></td>
+<td><p>688192511</p></td>
+</tr>
+<tr class="row-even"><td><p>peru</p></td>
+<td><p>1</p></td>
+<td><p>40509547</p></td>
+<td><p>1423185</p></td>
+<td><p>21698175</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="simple">
+<li><p>This sections describes each dataset and how to put it in
+(t,u,v) format when necessary. The last subsection then
+explains how the weighted graph and timeserie are obtained
+from the stream.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mawi.html">Mawi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mawi.html#plots">Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mawi.html#data-preparation">Data preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mawi.html#reciprocity-check">Reciprocity Check</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="taxi.html">Taxi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="taxi.html#plots">Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="taxi.html#data-preparation">Data Preparation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bitcoin.html">Bitcoin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peru.html">Peru</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="peru.html#plots">Plots</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="prepare_data.html">Prepare Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="prepare_data.html#weighted-graph">Weighted Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prepare_data.html#timeserie">Timeserie</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../benchmark/datasets.html" class="btn btn-neutral float-left" title="Datasets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mawi.html" class="btn btn-neutral float-right" title="Mawi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

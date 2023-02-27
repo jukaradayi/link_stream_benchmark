@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prepare Data &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Random Graph and Timeserie Generation" href="../random_generation/index.html" />
+    <link rel="prev" title="Peru" href="peru.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Data Preparation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="mawi.html">Mawi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="taxi.html">Taxi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bitcoin.html">Bitcoin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peru.html">Peru</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Prepare Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#weighted-graph">Weighted Graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#timeserie">Timeserie</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../random_generation/index.html">Random Graph and Timeserie Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Data Preparation</a></li>
+      <li class="breadcrumb-item active">Prepare Data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/data_preparation/prepare_data.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="prepare-data">
+<span id="id1"></span><h1>Prepare Data<a class="headerlink" href="#prepare-data" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>When the dataset-specific processing are done, the last
+step of the data prepration is to extract the weighted
+graph and the timeserie are obtained.</p></li>
+</ul>
+<section id="weighted-graph">
+<h2>Weighted Graph<a class="headerlink" href="#weighted-graph" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>The weighted graph <cite>G</cite> is extracted by “getting rid” of the time
+to keep only the structure of the data. We define <cite>V</cite> the set of
+all vertices in the data. Each interaction
+<cite>(t,u,v)</cite> then gives an edge <cite>(u,v)</cite> in the graph <cite>G</cite>, and the
+weight <img class="math" src="../_images/math/08ab3a0544bdf340ce313f8a5bba9d88a18f9336.png" alt="w_{u,v}"/> is the number of occurences with different
+timestamps of interaction between <cite>(u,v)</cite></p></li>
+<li><p>In practice, we extract it by piping the following commands in bash:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mawk<span class="w"> </span><span class="s1">&#39;{print $2&quot;,&quot;$3;}&#39;</span><span class="w">  </span><span class="c1"># remove the timestamp</span>
+
+sort<span class="w">                     </span><span class="c1"># sort the data</span>
+
+uniq<span class="w"> </span>-c<span class="w">                  </span><span class="c1"># count the number of occurence of each (u,v)</span>
+
+mawk<span class="w"> </span><span class="s1">&#39;{print $2,$1;}&#39;</span><span class="w">    </span><span class="c1"># format the output of uniq</span>
+</pre></div>
+</div>
+</section>
+<section id="timeserie">
+<h2>Timeserie<a class="headerlink" href="#timeserie" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>The timeserie <cite>a</cite> is extracted by “getting rid” of the structure,
+to keep only the number of interactions at each time.
+We define <cite>T</cite> the set of all timestamps in the data, then for each
+<img class="math" src="../_images/math/5efaba979ea50ddaea8908291241d5874c086f3c.png" alt="t \in T, a(t) = \sum_{ \forall u,v \in V \times V} \mathbf{1}_{t}(u,v)"/>
+where <img class="math" src="../_images/math/57e50efd253526f916c7d24ebe27b90e68fcf46b.png" alt="\mathbf{1}_{t}(u,v)"/> is <cite>1</cite> if the edge <cite>(u,v)</cite> occurs at time <cite>t</cite>, <img class="math" src="../_images/math/31fdf41b39df23c95e52c5aef07f59d9adf82f3c.png" alt="0"/> otherwise.</p></li>
+<li><p>In practice, we pipe the wollowing commands in bash:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f1<span class="w">         </span><span class="c1"># only keep timestamp</span>
+
+uniq<span class="w"> </span>-c<span class="w">               </span><span class="c1"># count occurences of each</span>
+<span class="w">                      </span><span class="c1"># timestamps, i.e. number of</span>
+<span class="w">                      </span><span class="c1"># interaction ocurring at this timestamp</span>
+
+mawk<span class="w"> </span><span class="s1">&#39;{print $2,$1;}&#39;</span><span class="w"> </span><span class="c1"># format mawk output</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The timeserie <img class="math" src="../_images/math/b3e65e3b6408fcfa00452530b73f55d1755f9965.png" alt="a"/> used in computation is defined on the set of
+timestamps <img class="math" src="../_images/math/e8dea8254118f111b5fb20895b03528c17566f06.png" alt="T"/> called the event times, i.e. the times where interaction occurs. On this
+set, the timeserie <img class="math" src="../_images/math/b3e65e3b6408fcfa00452530b73f55d1755f9965.png" alt="a"/> is thus never <img class="math" src="../_images/math/31fdf41b39df23c95e52c5aef07f59d9adf82f3c.png" alt="0"/>.
+We can define the set <img class="math" src="../_images/math/eff2fa79dfd502523aa7da20be8943b3940ddeff.png" alt="T'"/> with a constant timestamp, with <img class="math" src="../_images/math/d6a45483af12c677dd79033f52104ccfa9571858.png" alt="T \subset T'"/> and
+<img class="math" src="../_images/math/41ccb6618fe9cbaa57754b2af8bbec867bb8cc33.png" alt="a(t)=0 \forall t \in T' \backslash  T"/></p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="peru.html" class="btn btn-neutral float-left" title="Peru" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../random_generation/index.html" class="btn btn-neutral float-right" title="Random Graph and Timeserie Generation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

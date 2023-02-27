@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usage &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Normality And Anomalies" href="normality_and_anomalies.html" />
+    <link rel="prev" title="Pipeline" href="pipeline.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Benchmark</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#preparator">Preparator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#processor">Processor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#link-stream-generator">Link Stream Generator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="normality_and_anomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets.html">Datasets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../data_preparation/index.html">Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random_generation/index.html">Random Graph and Timeserie Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Benchmark</a></li>
+      <li class="breadcrumb-item active">Usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/benchmark/usage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="usage">
+<span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>This page describes how to use each block of the benchmark.</p></li>
+</ul>
+<section id="preparator">
+<h2>Preparator<a class="headerlink" href="#preparator" title="Permalink to this heading"></a></h2>
+<ul>
+<li><p>The <strong>preparator</strong> is used to get some specific datasets and put them in the following format (t are the timestamps, u and v are the nodes. u and v share the same set of node ids):</p>
+<div class="line-block">
+<div class="line">t0 u0 v0</div>
+<div class="line">t1 u1 v1</div>
+<div class="line">t2 u2 v2</div>
+<div class="line">…</div>
+</div>
+</li>
+<li><p>Two datasets included in the benchmark require specific preparator</p>
+<ul>
+<li><p><strong>nyc_taxi</strong> : in <em>preparator/nyc_taxi_stream/nyc_taxi_stream</em> you can find the python package used to prepare the dataset. The raw dataset needs to be processed to adapt it to the benchmarks convention.
+The nyc_taxi dataset contains taxi trip with their start timestamp, their ending timestamp, and the coordinates of the start and dropoff. This preparator takes the <strong>middle</strong> of the start and ending <strong>timestamp</strong>, and <strong>discretizes</strong> the coordinates using a <strong>grid</strong>.</p>
+<ul>
+<li><p>First download the dataset:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>wget <a class="reference external" href="https://s3-us-west-2.amazonaws.com/nyctlc/nyc_taxi_data.csv.gz">https://s3-us-west-2.amazonaws.com/nyctlc/nyc_taxi_data.csv.gz</a></p></li>
+<li><p>gunzip nyc_taxi_data.csv.gz</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>The raw data can then be processed (the chosen value for the grid size is 3000 for the benchmark):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>python3 build_stream.py –input_file=”../Data/nyc_taxi_data.csv” –output_file=”./taxi_stream.txt” –n=3000</strong></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>MAWI</strong> : The MAWI data consists of several 15 minutes snapshots. The preparator is in preparator/mawi_stream:</p>
+<ul>
+<li><p>Download the dataset (two dates, 2018 and 2019, have day long captures, 2020 contains only 8 hours): bash download.sh 2018</p></li>
+<li><p>The raw data contains a lot of information we don’t want. Also, we only keep a link from node <em>u</em> to node <em>v</em> if a response from <em>v</em> to <em>u</em> is detected in less than 1 second (done by reciprocity.awk. You can also choose to keep the port information or not (two nodes with same IP but different port can be considered as same node or different nodes)</p></li>
+<li><p>To process the data (arguments are : build_stream.sh &lt;input_folder&gt; &lt;output_folder&gt; &lt;check_reciprocity&gt; &lt;keep_ports&gt; &lt;max memory to use for sort&gt; &lt;number of CPU to use for sort&gt;), use for example:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>bash build_stream.sh &lt;PCAP_FOLDER&gt; &lt;OUTPUT_FOLDER&gt; true false 20G 4</strong></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="processor">
+<h2>Processor<a class="headerlink" href="#processor" title="Permalink to this heading"></a></h2>
+<ul>
+<li><p>Given a link stream in the format described in the previous section, the Processor extracts the weight distribution of the aggregated graph, and the time series distribution. The processor can also generate random graph and timeseries, and their distributions.</p></li>
+<li><p>The output of processor are (given a dataset called “dataset”):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>dataset.clean.gz</strong> : a “cleaned” version of the link stream, in which self loops are removed, duplicate (t,u,v) are removed, outputs are sorted, timestamps are rounded using the “grain” parameter.</p></li>
+<li><p><strong>dataset.deg.gz</strong>  : the degrees of each node of the dataset (degree of the node in the aggregated graph)</p></li>
+<li><p><strong>dataset.degree.d.gz</strong> : the degree distribution of the graph</p></li>
+<li><p><strong>dataset.ts.gz</strong> : the aggregated timeserie</p></li>
+<li><p><strong>dataset.ts.d.gz</strong> : the distribution of the aggregated timeserie</p></li>
+<li><p><strong>dataset.weight.gz</strong> : the aggregated weighted graph</p></li>
+<li><p><strong>dataset.weight.d.gz</strong> : the weight distribution of the graph.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>To generate a link-stream (see next section), the <em>dataset.weight.gz</em> and <em>dataset.ts.gz</em> files will be used. Those file are in the following format:</p>
+<ul>
+<li><p><strong>dataset.weight.gz</strong> (<em>edge</em> are the edges of the graph, and <em>w</em> are the weights):</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">edge0 w0</div>
+<div class="line">edge1 w1</div>
+<div class="line">edge2 w2</div>
+<div class="line">…</div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>dataset.ts.gz</strong> (<em>t</em> are the timestamps and <em>v</em> are the values):</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">t0 v0</div>
+<div class="line">t1 v1</div>
+<div class="line">t2 v2</div>
+<div class="line">…</div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>To extract the aggregate graph and timeserie from a link stream (in the format defined in previous section), use <strong>processor/prepare_data.sh</strong>:</p>
+<ul>
+<li><p><strong>bash processor/prepare_data.sh &lt;PATH_TO_LINKSTREAM&gt; &lt;GRAIN&gt; &lt;MEMORY&gt; &lt;NCPU&gt;</strong></p></li>
+</ul>
+</li>
+<li><p>To generate a random graph and a random timeserie, use the package <strong>processor/GTgen</strong>. See GTgen doc for more (found in GTgen/doc/build/html) details. For basic usage, modify a yaml file in processor/GTgen/example, entering your own parameters, and generate using:</p>
+<ul>
+<li><p><strong>python GTgen/generate.py -y &lt;PATH_TO_YAML&gt; -o &lt;OUTPUT_FOLDER&gt;</strong></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="link-stream-generator">
+<h2>Link Stream Generator<a class="headerlink" href="#link-stream-generator" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Finally, to generate a link-stream using the <strong>dataset.weight.gz</strong> and <strong>dataset.ts.gz</strong> files, use the package <strong>link-stream-generator/genbip</strong>. See <strong>genbip</strong> doc (found in genbip/doc/build/html) for more details.</p></li>
+<li><p>To generate a random link-stream using genbip, the parameters are :</p>
+<ul>
+<li><p><strong>python genbip/launch.py &lt;PATH_TO_WEIGHT&gt; &lt;PATH_TO_TS&gt; &lt;MODEL&gt; –swaps &lt;NSWAP&gt; -tan &lt;PATH_TO_ANOMALY_WEIGHT&gt; -ban &lt;PATH_TO_ANOMALY_TS&gt;</strong></p></li>
+</ul>
+</li>
+<li><p>Where <em>&lt;MODEL&gt;</em> should be chosen in <em>configuration, pruned, whole, asap, corrected, havelhakimi</em> (check genbip doc for more info on each model), <em>&lt;NSWAP&gt;</em> gives the number of swap required after graph generation (swap are needed only when the chosen model is <em>havelhakimi</em>). <em>-tan</em> and <em>-ban</em> require path to the “anomaly” weighted graph and “anomaly” time serie, in the same format as the “normal” graph weight <em>dataset.weight.gz</em> and normal timeserie <em>dataset.ts.gz</em>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The genbip generator generates a bipartite graph given two degree sequences. Generating a randomly uniformly pick bipartite graph where the “top” degree sequence is the list of the edges of the graph, and their weight,
+and the “bot” degree sequence is the list of timestamps and the values of the timeserie at each point, is equivalent to generating a uniformly randomly picked link-stream with said graph and
+timeserie.
+Note that the notions of “top” and bottom are symmetric, and the graph can be given as top or bottom without any change, BUT, if the graph is given as top (resp. bottom), then the anomaly graph
+should be given as top using <em>-tan</em> as well (resp. bottom using <em>-ban</em>).</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pipeline.html" class="btn btn-neutral float-left" title="Pipeline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="normality_and_anomalies.html" class="btn btn-neutral float-right" title="Normality And Anomalies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

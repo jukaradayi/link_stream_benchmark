@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graph Data Model &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Graph Random Model" href="graph_randomModel.html" />
+    <link rel="prev" title="Normality And Anomalies" href="graph_normalityAndAnomalies.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_preparation/index.html">Data Preparation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Random Graph and Timeserie Generation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="graph_normalityAndAnomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Graph Data Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#generation">Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#weights">Weights</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graph_randomModel.html">Graph Random Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_normalityAndAnomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_dataModel.html">Timeserie Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_randomModel.html">Random Model Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Random Graph and Timeserie Generation</a></li>
+      <li class="breadcrumb-item active">Graph Data Model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/random_generation/graph_dataModel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="graph-data-model">
+<span id="grap-datamodel"></span><h1>Graph Data Model<a class="headerlink" href="#graph-data-model" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>One pipeline used to generate graph uses weights sequences and degree sequences
+measured from real-life datasets (presented in the benchmark/datasets section).
+We assume that anomalies are present in those datasets we use.</p></li>
+</ul>
+<section id="generation">
+<h2>Generation<a class="headerlink" href="#generation" title="Permalink to this heading"></a></h2>
+<ul>
+<li><p>We generate the graphs using a Havel Hakimi to fit the degree sequence,
+then perform random edge swaps to ensure that graph is uniformly randomly picked.</p></li>
+<li><p>The steps are:</p>
+<blockquote>
+<div><ul>
+<li><p>Read the input parameters for the models</p></li>
+<li><p>Read the degree sequence <img class="math" src="../_images/math/d8f4e6d5ca9c5244049a19cd135795262cd4d8ed.png" alt="S_d"/> and weight sequence <img class="math" src="../_images/math/aac9977b713b53404729054a65571bebf0689199.png" alt="S_w"/></p></li>
+<li><p>Generate the anomaly <img class="math" src="../_images/math/1bda3101c6f5bbb7f581165fe0173a5203d26597.png" alt="G_{an}"/> using an Erdos Renyi model with the input parameters</p></li>
+<li><p>Place anomaly on normal graph: Initialize the list <cite>selected_nodes</cite>, then for each node <img class="math" src="../_images/math/863c299f2d5f67887a6a844ee7fd2aa08ba50a6e.png" alt="n_{an}"/> in <img class="math" src="../_images/math/1bda3101c6f5bbb7f581165fe0173a5203d26597.png" alt="G_{an}"/>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>step 1: uniformly pick in <img class="math" src="../_images/math/d8f4e6d5ca9c5244049a19cd135795262cd4d8ed.png" alt="S_d"/> a node <img class="math" src="../_images/math/58128ed2dbe683343145c3979bd1d4865478b26b.png" alt="n_{norm}"/> with degree <img class="math" src="../_images/math/d3001823c0a26861feabcfd46ba9d59024d198a0.png" alt="d_{norm} \geq d_{an}"/>, where <img class="math" src="../_images/math/876fc58d832f1d4b39131861d75580eff8fbc611.png" alt="d_{an}"/> is the degree of <img class="math" src="../_images/math/863c299f2d5f67887a6a844ee7fd2aa08ba50a6e.png" alt="n_{an}"/></p></li>
+<li><p>step 2: if <img class="math" src="../_images/math/58128ed2dbe683343145c3979bd1d4865478b26b.png" alt="n_{norm}"/> is not in <cite>selected_nodes</cite>, add it to the list, else, empty <cite>selected_nodes</cite> and start over at step 1.</p></li>
+<li><p>step 3 : get the degree of the normal graph <img class="math" src="../_images/math/106ed0fc9e849f61b6ddc20df27edd1724c60ed4.png" alt="d_{norm} = d_{norm} - d_{an}"/>.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>We then note <img class="math" src="../_images/math/b51b145633807d6cef4246a9e74973e97c7aa853.png" alt="S'_d"/> the updated degree sequence, that will now be the degree sequence of the “normal” graph.</p></li>
+<li><p>Generate the graph <img class="math" src="../_images/math/1435fdf0c64442c560cd6c390631fb11353b2544.png" alt="G_{norm}"/>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>First generate a graph using a Havel-Hakimi model to fit the degree sequence <img class="math" src="../_images/math/b51b145633807d6cef4246a9e74973e97c7aa853.png" alt="S'_d"/></p></li>
+<li><p>Then perform <img class="math" src="../_images/math/20243a38b32da3627c8a2fa40feb6bc6fc11cd27.png" alt="10 \times N_{edges}"/> random edge swaps (where <img class="math" src="../_images/math/ea8dd5c3a4da8ff0a24767bdcd23a5e77c0a1497.png" alt="N_{edges}"/> is the number of edges of the graph) to ensure that the
+graph is randomly uniformly picked</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Generate <img class="math" src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png" alt="G"/> as the union of <img class="math" src="../_images/math/dc668ca87fd9da87eda10e7dca18d685fc385f57.png" alt="G_n"/> and <img class="math" src="../_images/math/1bda3101c6f5bbb7f581165fe0173a5203d26597.png" alt="G_{an}"/></p></li>
+<li><p>If <img class="math" src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png" alt="G"/> is a simple graph, then return <img class="math" src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png" alt="G"/>, else:</p>
+<blockquote>
+<div><ul>
+<li><p>For each multiple edge <img class="math" src="../_images/math/a86f5f4fd6868874306bc4eb5b95c6762c1e9e68.png" alt="e_1"/> in <img class="math" src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png" alt="G"/>, do:</p>
+<blockquote>
+<div><ul>
+<li><p>Choose between graphs <img class="math" src="../_images/math/1bda3101c6f5bbb7f581165fe0173a5203d26597.png" alt="G_{an}"/> and <img class="math" src="../_images/math/1435fdf0c64442c560cd6c390631fb11353b2544.png" alt="G_{norm}"/> with a probability <img class="math" src="../_images/math/b44fd1b6dc8c77975b68a57eb25231239a15d7b5.png" alt="0.5"/></p></li>
+<li><p>In chosen graph, pick an edge <img class="math" src="../_images/math/055d183c61a58509206bf3953030aec623877d56.png" alt="e_2"/> uniformly at random</p></li>
+<li><p>Check that <img class="math" src="../_images/math/055d183c61a58509206bf3953030aec623877d56.png" alt="e_2"/> satisfies the following conditions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><img class="math" src="../_images/math/28ca538702edaf6f1b0b8acbc6b83b7bc4b2f293.png" alt="e_1 \neq e_2"/></p></li>
+<li><p>swapping <img class="math" src="../_images/math/a86f5f4fd6868874306bc4eb5b95c6762c1e9e68.png" alt="e_1"/> and <img class="math" src="../_images/math/055d183c61a58509206bf3953030aec623877d56.png" alt="e_2"/> reduces the number of multiple edges by at least one</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>If so, perform edge swap, else go to the beginning of the process for <img class="math" src="../_images/math/a86f5f4fd6868874306bc4eb5b95c6762c1e9e68.png" alt="e_1"/> again.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>return <img class="math" src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png" alt="G"/></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="weights">
+<h2>Weights<a class="headerlink" href="#weights" title="Permalink to this heading"></a></h2>
+<p>When <img class="math" src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png" alt="G"/> is generated, assign weights to the nodes by shuffling the weight sequence <img class="math" src="../_images/math/aac9977b713b53404729054a65571bebf0689199.png" alt="S_w"/>,
+then taking the first <img class="math" src="../_images/math/26967110e9e61ab1c890740ff8ef210a5868a48d.png" alt="N_an"/> values for <img class="math" src="../_images/math/1bda3101c6f5bbb7f581165fe0173a5203d26597.png" alt="G_{an}"/> edges, and the rest of the values for <img class="math" src="../_images/math/1435fdf0c64442c560cd6c390631fb11353b2544.png" alt="G_{norm}"/> edges weights.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="graph_normalityAndAnomalies.html" class="btn btn-neutral float-left" title="Normality And Anomalies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="graph_randomModel.html" class="btn btn-neutral float-right" title="Graph Random Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipeline &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Usage" href="usage.html" />
+    <link rel="prev" title="Benchmark" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Benchmark</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-pipeline">Running the Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normality_and_anomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets.html">Datasets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../data_preparation/index.html">Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random_generation/index.html">Random Graph and Timeserie Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Benchmark</a></li>
+      <li class="breadcrumb-item active">Pipeline</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/benchmark/pipeline.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pipeline">
+<span id="id1"></span><h1>Pipeline<a class="headerlink" href="#pipeline" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>Given a Link Stream <img class="math" src="../_images/math/00bef212b22344743b343e5411e79c9b2e3637b6.png" alt="S=(T,V,E)"/>, we define the induced weighted graph <img class="math" src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png" alt="G"/> of a link stream as <img class="math" src="../_images/math/a040cd1271f0edd0ab5a7f7901410ceae5ca1ec8.png" alt="G(S) = ({v, T_v \neq \emptyset} = (\cup_{t in T}V_t, \cup_{t\in T} E_t)"/>,
+whose nodes are the nodes present in <img class="math" src="../_images/math/b988975be41fd13b4d091c10202ba19374643586.png" alt="S"/>, and whose edges are all the edges that occur in <img class="math" src="../_images/math/b988975be41fd13b4d091c10202ba19374643586.png" alt="S"/>, their weights are the number of occurences in <img class="math" src="../_images/math/b988975be41fd13b4d091c10202ba19374643586.png" alt="S"/>.
+We also define the induced timeserie <img class="math" src="../_images/math/b3e65e3b6408fcfa00452530b73f55d1755f9965.png" alt="a"/> as <img class="math" src="../_images/math/62f1a78be5cb86ddb39ec5e29a5ca2acb0a1117f.png" alt="a(t) = |{v \in V_t}|"/>, with <img class="math" src="../_images/math/1d468959d1e6be8aae7450a0005fea3898b45720.png" alt="V_t"/> the set of edges at time <img class="math" src="../_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png" alt="t"/>.</p></li>
+<li><p>A link stream can then be seen as a bipartite graph where the top nodes are the edges of the induced weighted graph, the degree of the nodes are the weight of the edges, and the bottom nodes are the timestamps of the induced timeserie, their degree are the values of the timeserie.</p></li>
+<li><p>Given all this, the generic pipeline used for all generated datasets provided in the benchmark is the following:</p>
+<ul>
+<li><p>Get the weighted edges of the induced graph and the induced timeserie</p></li>
+<li><p>Generate the “normal” link stream by generating the bipartite graph using the weighted edges and the timeserie</p></li>
+<li><p>Generate the “anomaly” link stream by generating the bipartite graph using the “anomaly” weighted edges and the “anomaly” timeserie”</p></li>
+</ul>
+</li>
+</ul>
+<section id="running-the-pipeline">
+<h2>Running the Pipeline<a class="headerlink" href="#running-the-pipeline" title="Permalink to this heading"></a></h2>
+<ul>
+<li><p>The bash script <em>benchmark_pipeline.sh</em> wraps all the tools used to run the complete pipeline. The scripts takes as input a configuration file (stored in the conf/ folder, see example configuration files in conf/) and runs the needed steps to generate the output link-stream.</p></li>
+<li><p>In order, to run the complete pipeline you need :</p>
+<ul>
+<li><p><strong>preparator/</strong> : contains scripts used to prepare the Taxi and the MAXI datasets. The Peru and Bitcoin datasets are already in usable format. The output of preparator should be a (gzipped) text file containing a list of (t,u,v).</p></li>
+<li><p><strong>processors/</strong> :</p>
+<ul>
+<li><p><strong>prepare_data.sh</strong> &amp; <strong>utils.sh</strong> : bash scripts, takes a list of (t,u,v) as input (ex output of preparator), removes loops and multiple links from the link-stream, round the timestamps to an integer (according to “grain” parameter given as input), start the first timestamp at 0, and sort the output according to time. From the processed link-stream, extract the edges weights list, the timeserie, the weight distribution and the timeserie distribution. The output of prepare_data.sh is made of 5 files (the link-stream as a list of (t,u,v), the edges weight list, the timeserie, the weight distribution and the timeserie distribution)</p></li>
+<li><dl>
+<dt><strong>GTgen</strong><span class="classifier">See <strong>GTgen</strong> doc for more details. GTgen is a Python package used to generate a timeserie with anomalies, and a weighted graph with anomalies. The graph and timeserie can be generated either from models, or from datasets.</span></dt><dd><p>When using models, the graph is generated using an Erdos-Renyii model, and anomalies are added as small Erdos-Renyii with higher density inside the graph. The timeserie is generated as a white noise, with regime-shift as anomaly.
+When using datasets, the graph is generated by generating a uniformly picked random graph with the same degree sequence as the input graph, while keeping some “stubs” as an Erdos-Renyii anomaly with higher density. The tiemserie is generated by shuffling the input timeserie, while keeping the higher values to use as the “anomaly” (regime shift).
+In all cases, the outputs of GTgen are four text files, the first one is the list edges of the induced “normal” graph with their weights, then we have the timeserie, and finaly the “anomaly” graph and “anomaly” timeserie in the same formats.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</li>
+<li><dl>
+<dt><strong>link-stream-generator</strong><span class="classifier">See <strong>genbip</strong> doc for more details. Genbip is a Python packaged used to generate a uniformly picked random timeserie given it’s induced graph and timeserie. When given an anomaly graph and an anomaly timeserie, they can be used to generate a link-stream anomaly.</span></dt><dd><p>To create a link-stream, genbip generates a bipartite graph using the edges of the induced graph as the “top” nodes, and their weights as the “top” degree sequence, the timestamps of the timeserie as “bottom” nodes, and the value of the timeserie at these timestamps as the “bottom” degree sequence. The bipartite graph is then generated using a modified havel-hakimi model to generate a (biased) realization of the bipartite degree sequence, then random edge swaps are used to generate a uniform sample.
+The output of link-stream-generator is a link-stream stored in a text file as a list of (t,u,v), and another text file giving the list of (t,u,v) of the anomaly.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Benchmark" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

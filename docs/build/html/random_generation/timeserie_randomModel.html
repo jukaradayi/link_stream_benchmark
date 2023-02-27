@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Model Generation &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Link Stream Generation" href="../link_stream_generation/index.html" />
+    <link rel="prev" title="Timeserie Data Model" href="timeserie_dataModel.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_preparation/index.html">Data Preparation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Random Graph and Timeserie Generation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="graph_normalityAndAnomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_dataModel.html">Graph Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_randomModel.html">Graph Random Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_normalityAndAnomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_dataModel.html">Timeserie Data Model</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Random Model Generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#white-noise-generation">White Noise Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipeline">Pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Random Graph and Timeserie Generation</a></li>
+      <li class="breadcrumb-item active">Random Model Generation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/random_generation/timeserie_randomModel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="random-model-generation">
+<span id="timeserie-randommodel"></span><h1>Random Model Generation<a class="headerlink" href="#random-model-generation" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>Take as input the number of interactions required <img class="math" src="../_images/math/4db5b6e16e06f929ce3f675c5e535d06ffb02ff7.png" alt="C"/>, which will be the goal sum of the timeserie. Generate a timeserie as sum of white noises defined on different subsets of timestamps.</p></li>
+</ul>
+<section id="white-noise-generation">
+<h2>White Noise Generation<a class="headerlink" href="#white-noise-generation" title="Permalink to this heading"></a></h2>
+<ul>
+<li><p>To generate the timeserie, we use a white noise generator.
+This generator work by generating each value independently, only constrained by the sum of the timeserie. It works as follow:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>initialize the white noise with a value of one on the set of timestamps <img class="math" src="../_images/math/e8dea8254118f111b5fb20895b03528c17566f06.png" alt="T"/>: <img class="math" src="../_images/math/9653dcd8d9dd6a4c643699a4174c9039544fee8d.png" alt="\forall t \in T a(t) = 1"/></p></li>
+<li><p>while the sum of the serie <img class="math" src="../_images/math/1f82fdf26f66145504bd6c7d4c14d48a4c4e3f1d.png" alt="C_s = \sum_{t \in T} a_{wn}(t) &lt; C"/>:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pick a random index <img class="math" src="../_images/math/0bf667b7aa2b007961202d3f1ddb3187f0a46ff7.png" alt="t_i \in T"/></p></li>
+<li><p>Increment the serie at this index <img class="math" src="../_images/math/037c568deaa34075b76a1b43b597f57ee7d775c8.png" alt="a_{wn}(t_i) += 1"/></p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="pipeline">
+<h2>Pipeline<a class="headerlink" href="#pipeline" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Generate normal timeserie <img class="math" src="../_images/math/e9f4d366f1d155ec8c37d785708c0c47e20de43d.png" alt="a_n"/> as white noise on set of timestamps T</p></li>
+<li><p>Generate anomaly timeserie <img class="math" src="../_images/math/72d917d09ed4ec085c08142a4357cb268fe4a3bd.png" alt="a_{an}"/> as white noise on set of timestamps <img class="math" src="../_images/math/4635f012e45d11e6bced9da9416381d92006c5e5.png" alt="T_{an} \subset T"/> , and <img class="math" src="../_images/math/31fdf41b39df23c95e52c5aef07f59d9adf82f3c.png" alt="0"/> on <img class="math" src="../_images/math/ee5932039eca1c554a8cd6e9b659dc0fccaaa0a6.png" alt="T \\ T_{an}"/></p></li>
+<li><p>Generated timeserie as <img class="math" src="../_images/math/7d6ad8e74a144a74621362622480eb9c4a63193f.png" alt="a_n + a_{an}"/></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="timeserie_dataModel.html" class="btn btn-neutral float-left" title="Timeserie Data Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../link_stream_generation/index.html" class="btn btn-neutral float-right" title="Link Stream Generation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

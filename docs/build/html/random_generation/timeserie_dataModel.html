@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timeserie Data Model &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Random Model Generation" href="timeserie_randomModel.html" />
+    <link rel="prev" title="Normality And Anomalies" href="timeserie_normalityAndAnomalies.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_preparation/index.html">Data Preparation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Random Graph and Timeserie Generation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="graph_normalityAndAnomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_dataModel.html">Graph Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_randomModel.html">Graph Random Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_normalityAndAnomalies.html">Normality And Anomalies</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Timeserie Data Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pipeline">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="timeserie_randomModel.html">Random Model Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Random Graph and Timeserie Generation</a></li>
+      <li class="breadcrumb-item active">Timeserie Data Model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/random_generation/timeserie_dataModel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="timeserie-data-model">
+<span id="timeserie-datamodel"></span><h1>Timeserie Data Model<a class="headerlink" href="#timeserie-data-model" title="Permalink to this heading"></a></h1>
+<p>This process generates a timeserie with an anomaly by using a measured timeserie as input.</p>
+<section id="pipeline">
+<h2>Pipeline<a class="headerlink" href="#pipeline" title="Permalink to this heading"></a></h2>
+<ul>
+<li><p>Take a timeserie <img class="math" src="../_images/math/b3e65e3b6408fcfa00452530b73f55d1755f9965.png" alt="a"/> measured on a dataset, defined on a set of timestamps <img class="math" src="../_images/math/e8dea8254118f111b5fb20895b03528c17566f06.png" alt="T"/>, and the number of interactions of the anomaly <img class="math" src="../_images/math/48c12e39d7ee34ac629e573c0c35f1a92986c4b4.png" alt="C_{an}"/>.</p></li>
+<li><p>Sort the timeserie <img class="math" src="../_images/math/b3e65e3b6408fcfa00452530b73f55d1755f9965.png" alt="a"/> in increasing value order</p></li>
+<li><p>select the <img class="math" src="../_images/math/9800c04dc7b6d659fb55a26c5ef9a6908bf713ea.png" alt="N_{an}"/> last (highest) values to host anomaly. The set of timestamps for these values is noted <img class="math" src="../_images/math/b13207e8e204e8c055cc90632384718881bd7017.png" alt="T_{an}"/></p></li>
+<li><p>While the sum <img class="math" src="../_images/math/bd22e5381487c8ba9ec70c43992192b5d0950653.png" alt="\sum_{t \in T_{an}} a_{an}(t) &lt; C_{an}"/>, do:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pick a random index <img class="math" src="../_images/math/ec997ca6db198ccb1774e5998893206d48962ed4.png" alt="t_i \in T_{an}"/></p></li>
+<li><p>increment the anomaly timeserie at this index <img class="math" src="../_images/math/76f2fd577b1ca5f640213f235925219dff2b034d.png" alt="a_{an}(t_i) += 1"/></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Define ‘normality’ timeserie as <img class="math" src="../_images/math/3f3b617b5005365c728216eb99f53a03b2a25694.png" alt="a_{norm}(t) = a(t) - a_{an}(t), \forall t \in T"/></p></li>
+<li><p>Generate normal timeserie and anomaly timeserie by “shuffling”*
+<img class="math" src="../_images/math/d048716f598f3afe145b05ddaab75d146a2c83f5.png" alt="a_{norm}"/> and <img class="math" src="../_images/math/72d917d09ed4ec085c08142a4357cb268fe4a3bd.png" alt="a_{an}"/>, i.e. define two bijective mappings <img class="math" src="../_images/math/d1b80fcd1a5ef32e39605010c618911d1e34228b.png" alt="T\rightarrow T"/> (where <img class="math" src="../_images/math/e8dea8254118f111b5fb20895b03528c17566f06.png" alt="T"/> is the set of timestamps of the timeseries) <img class="math" src="../_images/math/e873836cc478661a52d42a2c36cda103cb6122c9.png" alt="map1"/> and <img class="math" src="../_images/math/ff339e6a0a6e03faa7ef1aa56009c40a65fab059.png" alt="map2"/>, such that
+<img class="math" src="../_images/math/6c15361cdb451ded4d48a132d82980862bf8b341.png" alt="a'_{norm}(t) = a_{norm}(map1(t))"/> and <img class="math" src="../_images/math/ed94707f055de940696e002096649e62ecc99b30.png" alt="a'_{an}(t) = a_{an}(map2(t))"/>
+TODO : map2 is more constrained than simply this</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="timeserie_normalityAndAnomalies.html" class="btn btn-neutral float-left" title="Normality And Anomalies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="timeserie_randomModel.html" class="btn btn-neutral float-right" title="Random Model Generation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,25 +1,10 @@
 BENCHMARK PIPELINE
 ==================
 
-WIP 
-# DOCS : 
-une docs pour tout décrire dans benchmark => docs juste pour python API dans GTgen et genbip et taxi
+Documentation
+-------------
 
-## TODO : 
-    - Test pipeline on complete taxi (for time) - already tested complete pipeline on subpart of taxi w/grid 5 WIP
-    - test pipeline on mawi WIP
-    - implement configuration check for model generation & pipeline
-    - order as package
-    - documentation (w/ sphinx ?)
-    - Regarding models (random):
-        - check if able to scale (huge input ?)
-        - How choose n for graph : clarify inputs ... (j'aime pas le côté choisir n&m + je rentre un dataset ... => si dataset choisir que n?)
-        - currently no anomaly
-        - timeserie from real data=Done
-        - graph weight from real data: WIP (should test)
-
-This repository contains scripts to generate the benchmark dataset (#TODO give a better name to the "benchmark dataset" ?)
-
+A documentation can be found in **docs/build/html/index.html**. Additionnal documentation for the package used can be found in the packages root/docs.
 
 Pipeline
 --------
@@ -52,5 +37,6 @@ Model
 -------
 
 in `utils/model_generation`, find a python package to generate graph and timeseries from different models, defined by the modelGeneration.yaml file.
+
 
 

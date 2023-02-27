@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mawi &mdash; GTgen 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Taxi" href="taxi.html" />
+    <link rel="prev" title="Data Preparation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GTgen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Data Preparation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Mawi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#plots">Plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-preparation">Data preparation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reciprocity-check">Reciprocity Check</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="taxi.html">Taxi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bitcoin.html">Bitcoin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peru.html">Peru</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prepare_data.html">Prepare Data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../random_generation/index.html">Random Graph and Timeserie Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../link_stream_generation/index.html">Link Stream Generation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GTgen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Data Preparation</a></li>
+      <li class="breadcrumb-item active">Mawi</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/data_preparation/mawi.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mawi">
+<span id="id1"></span><h1>Mawi<a class="headerlink" href="#mawi" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>The <a class="reference external" href="http://MAWI.wide.ad.jp/MAWI/">MAWI dataset</a> is made of 24 hours long
+IP traffic traces.</p></li>
+<li><p>For the purpose of the benchmark, we used the daylong trace from <a class="reference external" href="http://mawi.wide.ad.jp/mawi/ditl/ditl2019-G/">04/09/2019</a>. A <a class="reference external" href="https://github.com/jukaradayi/link_stream_benchmark/blob/master/preparator/mawi_stream/download.sh">download script</a> is available in the benchmark repository to download daylong traces from 05/09/2018, 04/09/2019 or 04/08/2020(incomplete day), but other daylong traces can be used with the following preparation.</p></li>
+<li><p>Only the UDP and TCP transfer are kept, and the transfers are considered
+undirected.</p></li>
+</ul>
+<section id="plots">
+<h2>Plots<a class="headerlink" href="#plots" title="Permalink to this heading"></a></h2>
+<figure class="align-left" id="id3">
+<a class="reference internal image-reference" href="../_images/mawi_stream.txt.degree.png"><img alt="../_images/mawi_stream.txt.degree.png" src="../_images/mawi_stream.txt.degree.png" style="width: 320.0px; height: 240.0px;" /></a>
+<figcaption>
+<p><span class="caption-text">The degree distribution of the MAWI dataset</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-right" id="id4">
+<a class="reference internal image-reference" href="../_images/mawi_stream.txt.weight.png"><img alt="../_images/mawi_stream.txt.weight.png" src="../_images/mawi_stream.txt.weight.png" style="width: 320.0px; height: 240.0px;" /></a>
+<figcaption>
+<p><span class="caption-text">The weight distribution of the MAWI dataset</span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/mawi_stream.txt.ts.png"><img alt="../_images/mawi_stream.txt.ts.png" src="../_images/mawi_stream.txt.ts.png" style="width: 320.0px; height: 240.0px;" /></a>
+<figcaption>
+<p><span class="caption-text">The timeserie of the MAWI dataset</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>The <cite>pcap</cite> input data is read using <cite>tcpdump</cite> to extract TCP and UDP packet transfers.
+From the input data, only the timestamps t, the source IP ip_s and the destination IP ip_d are kept, which we will note (t, ip_s, ip_d).</p></li>
+<li><p>The command line used to extract the trafic is:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tcpdump<span class="w"> </span>-ttnnq<span class="w"> </span>ip<span class="w"> </span>and<span class="w"> </span><span class="se">\(</span><span class="w"> </span>udp<span class="w"> </span>or<span class="w"> </span>tcp<span class="w"> </span><span class="se">\)</span><span class="w"> </span>-r<span class="w"> </span>-
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The output can then be piped to get the specific format. In particular we use the following to keep only the timestamp and IP addresses:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>,3,5
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Also the following awk command removes the ports used for the data transfer:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>awk<span class="w"> </span><span class="s1">&#39;{split($2, src, &quot;.&quot;); split($3, dst, &quot;.&quot;); print $1&quot; &quot;src[1]&quot;.&quot;src[2]&quot;.&quot;src[3]&quot;.&quot;src[4]&quot; &quot;dst[1]&quot;.&quot;dst[2]&quot;.&quot;dst[3]&quot;.&quot;dst[4]}&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="reciprocity-check">
+<h2>Reciprocity Check<a class="headerlink" href="#reciprocity-check" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the output format, we consider the links undirected. However, for
+the purpose of the Reciprocity Check, the direction is important.
+In this paragraph, (t0, ip1, ip2) means that the source of the packet was
+ip1 and the destination ip2.</p>
+</div>
+<ul class="simple">
+<li><p>A packet (t0, ip_s, ip_d) is kept if and only if a recriproc packet
+(t1, ip_d, ip_s) where <cite>|t1 - t0| &lt; 1s</cite>.</p></li>
+<li><p>This choice was made to remove transfer where one IP address spams a span of
+IP addresses</p></li>
+<li><p>The data is put in the following format:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>t0,<span class="w"> </span>ip1,<span class="w"> </span>ip2,<span class="w"> </span>dir
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>where <cite>t0</cite> is the timestamp, <cite>ip1</cite> and <cite>ip2</cite> are the source and destination ips, with <cite>ip1 &lt; ip2</cite> (using numerical order sequentially on each section of the ip, e.g. <cite>1.10.10.10 &lt; 10.1.1.1</cite>), and <cite>dir</cite> is a flag to indicated the direction, i.e. <cite>dir = 0</cite> if <cite>ip1</cite> is the source and <cite>dir = 1</cite> if ip2 is the source.</p></li>
+<li><p>Once the data is sorted, we run the following with awk:</p></li>
+</ul>
+<div class="highlight-awk notranslate"><div class="highlight"><pre><span></span><span class="c1"># INIT</span>
+<span class="nb">BEGIN</span><span class="p">{</span>
+    <span class="nx">window</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># window of 1 second</span>
+<span class="p">}</span>
+<span class="p">{</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">NR</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># on first line</span>
+    <span class="p">{</span>
+     <span class="c1"># Store timestamps and ips</span>
+     <span class="nx">first_t</span><span class="o">=$</span><span class="mi">1</span><span class="p">;</span>
+     <span class="nx">prev_src</span><span class="o">=$</span><span class="mi">2</span><span class="p">;</span>
+     <span class="nx">prev_dst</span><span class="o">=$</span><span class="mi">3</span><span class="p">;</span>
+     <span class="nx">flag_up</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="c1"># enable if packet was seen in $2 -&gt; $3 direction</span>
+     <span class="nx">flag_down</span><span class="o">=</span><span class="mi">0</span> <span class="c1"># enable if packet was seen in $3 -&gt; $2 direction</span>
+    <span class="p">};</span>
+
+<span class="c1"># if line still has same source and destination and timestamp</span>
+<span class="c1"># isn&#39;t further then 1.0s than stored line, store line in</span>
+<span class="c1"># current_window</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">$</span><span class="mi">2</span><span class="o">==</span><span class="nx">prev_src</span> <span class="o">&amp;&amp;</span> <span class="o">$</span><span class="mi">3</span> <span class="o">==</span> <span class="nx">prev_dst</span> <span class="o">&amp;&amp;</span> <span class="o">$</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">first_t</span> <span class="o">&lt;=</span> <span class="nx">window</span><span class="p">)</span>
+    <span class="p">{</span>
+     <span class="nx">current_window</span><span class="p">[</span><span class="nx">window_index</span><span class="o">++</span><span class="p">]</span><span class="o">=$</span><span class="mi">1</span><span class="s2">&quot; &quot;</span><span class="o">$</span><span class="mi">2</span><span class="s2">&quot; &quot;</span><span class="o">$</span><span class="mi">3</span><span class="p">;</span>
+     <span class="k">if</span> <span class="p">(</span><span class="o">$</span><span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="nx">flag_up</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+     <span class="k">if</span> <span class="p">(</span><span class="o">$</span><span class="mi">4</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="nx">flag_down</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="c1"># When entering a new &quot;block&quot; of source-destination, or timestamps</span>
+<span class="c1"># if further than 1.0 second,</span>
+<span class="c1"># if flag_up and flag_down are enabled, write entire block and reset</span>
+<span class="c1"># the current_window</span>
+<span class="k">else</span>
+    <span class="p">{</span>
+     <span class="k">if</span> <span class="p">(</span><span class="nx">flag_up</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">flag_down</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>
+         <span class="k">for</span> <span class="p">(</span><span class="nx">iii</span> <span class="o">in</span> <span class="nx">current_window</span><span class="p">)</span>
+            <span class="p">{</span>
+             <span class="kr">print</span> <span class="nx">current_window</span><span class="p">[</span><span class="nx">iii</span><span class="p">];</span>
+             <span class="kr">delete</span> <span class="nx">current_window</span><span class="p">[</span><span class="nx">iii</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+     <span class="k">else</span>
+        <span class="p">{</span>
+         <span class="k">for</span> <span class="p">(</span><span class="nx">iii</span> <span class="o">in</span> <span class="nx">current_window</span><span class="p">)</span>
+            <span class="p">{</span>
+             <span class="kr">delete</span> <span class="nx">current_window</span><span class="p">[</span><span class="nx">iii</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="nx">prev_src</span> <span class="o">=</span> <span class="o">$</span><span class="mi">2</span><span class="p">;</span>
+    <span class="nx">prev_dst</span> <span class="o">=</span> <span class="o">$</span><span class="mi">3</span><span class="p">;</span>
+    <span class="nx">first_t</span> <span class="o">=</span> <span class="o">$</span><span class="mi">1</span><span class="p">;</span>
+    <span class="nx">flag_up</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nx">flag_down</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nx">window_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="nx">current_window</span><span class="p">[</span><span class="nx">window_index</span><span class="o">++</span><span class="p">]</span><span class="o">=$</span><span class="mi">1</span><span class="s2">&quot; &quot;</span><span class="o">$</span><span class="mi">2</span><span class="s2">&quot; &quot;</span><span class="o">$</span><span class="mi">3</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">$</span><span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="nx">flag_up</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">$</span><span class="mi">4</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="nx">flag_down</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1"># write last stored block if needed at the end</span>
+<span class="nb">END</span><span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">flag_up</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">flag_down</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+     <span class="k">for</span> <span class="p">(</span><span class="nx">iii</span> <span class="o">in</span> <span class="nx">current_window</span><span class="p">)</span>
+        <span class="p">{</span>
+         <span class="kr">print</span> <span class="nx">current_window</span><span class="p">[</span><span class="nx">iii</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Data Preparation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="taxi.html" class="btn btn-neutral float-right" title="Taxi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, ComplexNetworks.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
