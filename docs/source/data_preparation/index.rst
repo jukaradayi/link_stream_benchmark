@@ -21,21 +21,19 @@ Data Preparation
    Please look at `this paper <http://www.complexnetworks.fr/wp-content/uploads/2017/11/1710.040731.pdf>`_ for a more thorough definition of link-streams.
 
 
-* The following Table summarize the main properties of each dataset (TODO:fix version of datasets,
-  probably taxi_3000, mawi_1_day_0.001 
-
-    =========== ======= ============== ======= ============    
-    dataset     grain   n_interactions n_nodes n_timestamps
-    =========== ======= ============== ======= ============
-    taxi_3000   0.5     153336646      1211783 40329057
-    mawi_1_day  0.001   836538338      440856  84344397
-    peru        1       40509547       1423185 21698175 
-    bitcoin     ?       ?              ?       ?
-    =========== ======= ============== ======= ============
+* The following Table summarize the main properties of each dataset 
+    =========== ======= ============== ========= ============    
+    dataset     grain   n_interactions  n_nodes  n_timestamps
+    =========== ======= ============== ========= ============
+    taxi_3000   0.5     153336646      1211783   40329057
+    mawi_1_day  0.001   836538338      440856    84344397
+    peru        1       40509547       1423185   21698175 
+    bitcoin     ?       1159615239     374472767 584309
+    =========== ======= ============== ========= ============
 
 .. note::
        
-   TODO : Several parameters were tested, e.g. size of the grid for taxi (taxi_1000 = grid of 1000 x 1000),
+   Several parameters were tested, e.g. size of the grid for taxi (taxi_1000 = grid of 1000 x 1000),
    size of grain for mawi (example of 2hour trace and 1 day trace)
    
    =========== ======= ============== ======= ============    
